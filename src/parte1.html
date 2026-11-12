@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preparatório OAB &amp; Graduação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* a plataforma tem paleta própria, de papel claro: impede o navegador de
+     repintar controles com as cores do modo escuro do sistema */
+  color-scheme:light;
+  --tinta:#15202B;        /* tinta de impressão, azul-escura */
+  --papel:#FBFAF7;        /* papel fino de códice */
+  --papel2:#F2EFE9;       /* sombra de página */
+  --toga:#2E4A62;         /* azul-ardósia, texto secundário */
+  --marca:#9A1C2E;        /* carmim de lombada — acento principal */
+  --marca-f:#7A1624;
+  --marcador:#E8B33C;     /* ocre de marca-texto — só progresso */
+  --verde:#2F6B4F;
+  --verde-c:#E7F0EA;
+  --vermelho-c:#F7E8EA;
+  --linha:#D9D3C7;
+  --linha-f:#BFB7A7;
+  --serif:"Bitter",Georgia,"Times New Roman",serif;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  --r:3px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--papel);color:var(--tinta);
+  font-family:var(--sans);font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:600;line-height:1.18;margin:0;letter-spacing:-.011em}
+h1{font-size:clamp(2.1rem,5.2vw,3.5rem)}
+h2{font-size:clamp(1.4rem,2.8vw,1.95rem)}
+h3{font-size:1.14rem}
+p{margin:0 0 1em}
+a{color:var(--marca);text-decoration-thickness:1px;text-underline-offset:2px}
+/* sem color:inherit o botão usa a cor de texto de botão do sistema,
+   que fica branca em modo escuro e some no fundo claro da página */
+button{font:inherit;cursor:pointer;color:inherit}
+:focus-visible{outline:2.5px solid var(--marca);outline-offset:2px}
+.oculto{display:none !important}
+.medida{max-width:66ch}
+
+/* ---------- botões ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:var(--marca);color:#fff;border:1px solid var(--marca-f);
+  padding:.72rem 1.3rem;border-radius:var(--r);font-weight:500;font-size:.97rem;
+  transition:background .14s ease;
+}
+.btn:hover{background:var(--marca-f)}
+.btn.g{padding:.95rem 1.9rem;font-size:1.05rem}
+.btn.s{background:transparent;color:var(--tinta);border-color:var(--linha-f)}
+.btn.s:hover{background:var(--papel2)}
+.btn.p{background:transparent;color:var(--marca);border-color:transparent;padding:.4rem .5rem}
+.btn.p:hover{background:var(--papel2)}
+.btn:disabled{opacity:.42;cursor:not-allowed}
+.btn.mini{padding:.4rem .75rem;font-size:.85rem}
+
+/* ---------- aba de divisória: o motivo central ---------- */
+.aba{
+  display:inline-block;background:var(--marca);color:#fff;
+  font-size:.735rem;font-weight:600;letter-spacing:.01em;
+  padding:.24rem .62rem;border-radius:0 var(--r) var(--r) 0;
+  font-family:var(--sans);
+}
+.aba.n{background:var(--toga)}
+.aba.v{background:var(--verde)}
+.aba.o{background:var(--marcador);color:#4A3608}
+
+/* numeral marginal, como a numeração de artigo do códice */
+.marginal{
+  font-family:var(--serif);font-size:.85rem;color:var(--linha-f);
+  font-variant-numeric:tabular-nums;
+}
+
+/* ---------- camada de aplicação ---------- */
+#app{display:flex;min-height:100vh}
+nav#lateral{
+  width:218px;flex:0 0 218px;background:var(--tinta);
+  padding:1.4rem 0 2rem;display:flex;flex-direction:column;
+}
+.logo{padding:0 1.1rem 1.3rem;color:var(--papel);font-family:var(--serif);font-size:1.07rem;line-height:1.3}
+.logo b{display:block;font-weight:700}
+.logo span{font-size:.76rem;color:#8EA3B5;font-family:var(--sans)}
+/* cada item é uma aba de divisória saindo da lombada */
+.item{
+  display:flex;align-items:center;justify-content:space-between;gap:.5rem;
+  width:100%;background:none;border:0;color:#B9C8D4;
+  padding:.56rem 1.1rem;text-align:left;font-size:.93rem;
+  border-left:3px solid transparent;transition:color .13s,background .13s;
+}
+.item:hover{color:#fff;background:rgba(255,255,255,.055)}
+.item[aria-current="page"]{color:var(--tinta);background:var(--papel);border-left-color:var(--marca);font-weight:500}
+.item .pin{
+  background:var(--marca);color:#fff;font-size:.68rem;font-weight:600;
+  min-width:1.22rem;height:1.22rem;border-radius:999px;
+  display:grid;place-items:center;padding:0 .3rem;
+}
+.navsep{height:1px;background:rgba(255,255,255,.1);margin:.7rem 1.1rem}
+.navrod{margin-top:auto;padding:1rem 1.1rem 0;color:#7C90A1;font-size:.76rem;line-height:1.45}
+
+main#tela{flex:1;min-width:0;padding:2.1rem clamp(1rem,3.4vw,2.6rem) 4.5rem}
+
+/* barra de nível, no topo da área de conteúdo */
+.barratopo{
+  display:flex;align-items:center;gap:1.4rem;flex-wrap:wrap;
+  padding-bottom:1.1rem;margin-bottom:1.9rem;border-bottom:1px solid var(--linha);
+}
+.nivelbox{display:flex;align-items:baseline;gap:.55rem}
+.nivelbox strong{font-family:var(--serif);font-size:1.05rem}
+.nivelbox em{font-style:normal;color:var(--toga);font-size:.85rem}
+/* o progresso é uma passada de marca-texto */
+.trilho{flex:1;min-width:150px;max-width:330px;height:9px;background:var(--papel2);border-radius:1px;overflow:hidden;position:relative}
+.traco{height:100%;background:var(--marcador);border-radius:1px;transition:width .5s cubic-bezier(.2,.7,.3,1)}
+.ofensiva{display:flex;align-items:center;gap:.4rem;font-size:.88rem;color:var(--toga)}
+.ofensiva b{color:var(--tinta);font-variant-numeric:tabular-nums}
+
+/* ---------- painel ---------- */
+.cabecalho{margin-bottom:1.7rem}
+.cabecalho p{color:var(--toga);margin:.5rem 0 0;max-width:62ch}
+.numeros{display:grid;grid-template-columns:repeat(auto-fit,minmax(142px,1fr));gap:0;border:1px solid var(--linha);border-radius:var(--r);overflow:hidden;margin-bottom:2.2rem;background:#fff}
+.num{padding:1.05rem 1.15rem;border-right:1px solid var(--linha)}
+.num:last-child{border-right:0}
+.num dt{font-size:.8rem;color:var(--toga);margin-bottom:.3rem}
+.num dd{margin:0;font-family:var(--serif);font-size:1.75rem;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.1}
+.num dd small{font-size:.9rem;color:var(--toga);font-weight:400}
+
+.secao{margin-bottom:2.7rem}
+.secao>h2{margin-bottom:.35rem}
+.subtexto{color:var(--toga);font-size:.93rem;margin:0 0 1.1rem;max-width:64ch}
+
+/* lista de recomendação */
+.rec{border:1px solid var(--linha);border-radius:var(--r);background:#fff;overflow:hidden}
+.recitem{display:flex;gap:1rem;align-items:center;padding:.9rem 1.15rem;border-bottom:1px solid var(--linha)}
+.recitem:last-child{border-bottom:0}
+.recitem .ord{font-family:var(--serif);font-size:1.3rem;color:var(--linha-f);font-weight:600;width:1.6rem;flex:0 0 auto;font-variant-numeric:tabular-nums}
+.recitem .corpo{flex:1;min-width:0}
+.recitem .corpo b{display:block;font-weight:600;font-size:.99rem}
+.recitem .corpo span{font-size:.855rem;color:var(--toga);display:block;margin-top:.12rem}
+.recitem .lado{text-align:right;flex:0 0 auto}
+.taxa{font-family:var(--serif);font-size:1.1rem;font-variant-numeric:tabular-nums}
+.taxa.ruim{color:var(--marca)}.taxa.media{color:#9A6A12}.taxa.boa{color:var(--verde)}
+.recitem .peso{font-size:.76rem;color:var(--toga);display:block}
+
+/* tabela geral */
+table{width:100%;border-collapse:collapse;font-size:.91rem;background:#fff}
+th,td{text-align:left;padding:.6rem .75rem;border-bottom:1px solid var(--linha);vertical-align:top}
+th{font-weight:600;font-size:.82rem;color:var(--toga);background:var(--papel2)}
+tbody tr:last-child td{border-bottom:0}
+.tabwrap{border:1px solid var(--linha);border-radius:var(--r);overflow:auto}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.delta{font-variant-numeric:tabular-nums;font-weight:500}
+.delta.sobe{color:var(--verde)}.delta.cai{color:var(--marca)}
+
+/* ---------- a página-questão ---------- */
+.questao{background:#fff;border:1px solid var(--linha);border-radius:var(--r);max-width:72ch}
+.qtopo{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0 1.3rem 0 0;border-bottom:1px solid var(--linha)}
+.qtopo .aba{margin:0}
+.qtopo .marginal{padding:.3rem 0}
+.qcorpo{padding:1.35rem 1.45rem 1.5rem}
+.enunciado{font-size:1.045rem;line-height:1.68;margin:0 0 1.25rem}
+.alts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.5rem}
+.alt{
+  display:flex;gap:.85rem;width:100%;text-align:left;
+  background:#fff;color:var(--tinta);border:1px solid var(--linha);border-radius:var(--r);
+  padding:.72rem .9rem;font-size:.96rem;line-height:1.5;transition:border-color .12s,background .12s;
+}
+.alt:hover:not(:disabled){border-color:var(--toga);background:var(--papel)}
+.alt .letra{font-family:var(--serif);font-weight:600;color:var(--toga);flex:0 0 1.1rem}
+.alt.sel{border-color:var(--toga);border-width:1.5px;background:var(--papel2)}
+.alt.certa{background:var(--verde-c);border-color:var(--verde);border-width:1.5px}
+.alt.certa .letra{color:var(--verde)}
+.alt.errada{background:var(--vermelho-c);border-color:var(--marca);border-width:1.5px}
+.alt.errada .letra{color:var(--marca)}
+/* alternativa já respondida continua plenamente legível: é relendo que o aluno entende o erro */
+.alt:disabled{cursor:default;color:var(--tinta);-webkit-text-fill-color:var(--tinta);opacity:1}
+
+/* devolutiva */
+.devolutiva{margin-top:1.4rem;border-top:1px solid var(--linha);padding-top:1.25rem}
+.veredito{display:flex;align-items:center;gap:.6rem;margin-bottom:.8rem;font-family:var(--serif);font-size:1.08rem;font-weight:600}
+.veredito.ok{color:var(--verde)}.veredito.no{color:var(--marca)}
+.comentario{font-size:.955rem;line-height:1.66}
+.comentario strong{font-weight:600}
+.fundamento{
+  margin-top:1rem;padding:.7rem .9rem;background:var(--papel2);
+  border-left:3px solid var(--toga);border-radius:0 var(--r) var(--r) 0;
+  font-size:.875rem;color:var(--toga);
+}
+.fundamento b{color:var(--tinta);font-weight:600}
+
+/* tutor */
+.tutor{margin-top:1.2rem;border:1px solid var(--linha);border-radius:var(--r);overflow:hidden}
+.tutortopo{display:flex;align-items:center;justify-content:space-between;gap:.8rem;padding:.65rem .9rem;background:var(--papel2);border-bottom:1px solid var(--linha);font-size:.89rem;font-weight:500}
+.tutorcorpo{padding:1rem;font-size:.93rem;line-height:1.62;max-height:400px;overflow:auto}
+.tutorcorpo h4{font-family:var(--sans);font-size:.85rem;color:var(--toga);font-weight:600;margin:1.1rem 0 .4rem}
+.tutorcorpo h4:first-child{margin-top:0}
+.tutorcorpo ul{margin:.3rem 0 .8rem;padding-left:1.15rem}
+.tutorcorpo li{margin-bottom:.3rem}
+.chat{display:flex;flex-direction:column;gap:.7rem;margin-top:.5rem}
+.fala{padding:.6rem .8rem;border-radius:var(--r);font-size:.92rem;line-height:1.6}
+.fala.eu{background:var(--papel2);align-self:flex-end;max-width:85%}
+.fala.ia{background:#fff;border:1px solid var(--linha)}
+.perguntar{display:flex;gap:.5rem;padding:.7rem;border-top:1px solid var(--linha);background:var(--papel)}
+.perguntar input{flex:1;min-width:0;padding:.6rem .75rem;border:1px solid var(--linha-f);border-radius:var(--r);font:inherit;font-size:.92rem;background:#fff;color:var(--tinta)}
+
+/* ---------- simulado ---------- */
+.simtopo{
+  position:sticky;top:0;z-index:20;background:var(--papel);
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+  padding:.8rem 0 .9rem;margin:-2.1rem 0 1.5rem;border-bottom:1px solid var(--linha);
+}
+.relogio{font-family:var(--serif);font-size:1.5rem;font-variant-numeric:tabular-nums;font-weight:600}
+.relogio.alerta{color:var(--marca)}
+.simmeta{font-size:.87rem;color:var(--toga)}
+.gabarito{display:grid;grid-template-columns:repeat(auto-fill,minmax(2.1rem,1fr));gap:.3rem;max-width:72ch;margin-top:1.6rem}
+.gq{
+  aspect-ratio:1;border:1px solid var(--linha);border-radius:2px;background:#fff;
+  font-size:.78rem;font-variant-numeric:tabular-nums;color:var(--toga);
+  display:grid;place-items:center;padding:0;
+}
+.gq.feita{background:var(--toga);color:#fff;border-color:var(--toga)}
+.gq.atual{outline:2px solid var(--marca);outline-offset:1px}
+.gq.marcada{background:var(--marcador);border-color:#C9951F;color:#4A3608}
+
+/* resultado */
+.notao{display:flex;align-items:flex-end;gap:1.1rem;flex-wrap:wrap;margin-bottom:.5rem}
+.notao .n{font-family:var(--serif);font-size:clamp(3.2rem,9vw,5rem);font-weight:700;line-height:.95;font-variant-numeric:tabular-nums}
+.notao .de{font-family:var(--serif);font-size:1.5rem;color:var(--toga)}
+.selo{display:inline-block;padding:.35rem .85rem;border-radius:var(--r);font-size:.9rem;font-weight:600}
+.selo.ok{background:var(--verde-c);color:var(--verde);border:1px solid var(--verde)}
+.selo.no{background:var(--vermelho-c);color:var(--marca);border:1px solid var(--marca)}
+.ganhos{display:flex;gap:1.6rem;flex-wrap:wrap;margin:1.3rem 0 2.6rem;font-size:.92rem;padding-bottom:1.3rem;border-bottom:1px solid var(--linha)}
+.ganhos b{font-variant-numeric:tabular-nums}
+
+/* medalhas */
+.medalhas{display:grid;grid-template-columns:repeat(auto-fill,minmax(166px,1fr));gap:.7rem}
+.med{border:1px solid var(--linha);border-radius:var(--r);padding:.8rem .9rem;background:#fff;opacity:.44}
+.med.tem{opacity:1;border-color:var(--marcador);background:#FFFDF5}
+.med b{display:block;font-size:.91rem;margin-bottom:.15rem}
+.med span{font-size:.79rem;color:var(--toga);line-height:1.45;display:block}
+
+/* gráfico de evolução */
+.grafico{border:1px solid var(--linha);border-radius:var(--r);background:#fff;padding:1.1rem}
+.grafico svg{display:block;width:100%;height:auto}
+
+/* flashcards */
+.flash{
+  max-width:60ch;min-height:280px;background:#fff;border:1px solid var(--linha);
+  border-radius:var(--r);padding:0;display:flex;flex-direction:column;
+}
+.flashcorpo{padding:1.6rem 1.5rem;flex:1;display:flex;align-items:center}
+.flashfrente{font-family:var(--serif);font-size:1.3rem;line-height:1.4}
+.flashverso{font-size:.96rem;line-height:1.68}
+.flashrod{display:flex;gap:.5rem;padding:.8rem 1rem;border-top:1px solid var(--linha);background:var(--papel);flex-wrap:wrap}
+
+/* resumos */
+.listaresumo{border:1px solid var(--linha);border-radius:var(--r);overflow:hidden;background:#fff}
+.lr{display:flex;align-items:center;gap:.9rem;width:100%;background:none;color:var(--tinta);border:0;border-bottom:1px solid var(--linha);padding:.85rem 1.1rem;text-align:left}
+.lr:last-child{border-bottom:0}
+.lr:hover{background:var(--papel)}
+.lr b{font-weight:500;font-size:.98rem}
+.lr span{font-size:.8rem;color:var(--toga);display:block}
+.leitura{max-width:76ch}
+.leitura table{margin:1rem 0;font-size:.875rem}
+.leitura .nota{background:var(--papel2);border-left:3px solid var(--marcador);padding:.65rem .85rem;font-size:.87rem;margin:.9rem 0;border-radius:0 var(--r) var(--r) 0}
+.leitura h2{margin-bottom:.9rem}
+
+/* filtros */
+.filtros{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;margin-bottom:1.5rem}
+select,input[type=date],input[type=text],input[type=password],textarea{
+  font:inherit;font-size:.9rem;padding:.5rem .65rem;border:1px solid var(--linha-f);
+  border-radius:var(--r);background:#fff;color:var(--tinta);max-width:100%;
+}
+label.campo{display:block;font-size:.85rem;color:var(--toga);margin-bottom:1rem}
+label.campo b{display:block;color:var(--tinta);font-weight:600;font-size:.92rem;margin-bottom:.25rem}
+label.campo input,label.campo select{width:100%;max-width:440px;margin-top:.1rem}
+label.campo em{font-style:normal;display:block;margin-top:.3rem;font-size:.82rem}
+
+/* trilhas */
+.disc{border:1px solid var(--linha);border-radius:var(--r);background:#fff;margin-bottom:.6rem;overflow:hidden}
+.disctopo{display:flex;align-items:center;gap:.9rem;width:100%;background:none;color:var(--tinta);border:0;padding:.8rem 1.1rem .8rem 0;text-align:left}
+.disctopo:hover{background:var(--papel)}
+.disctopo .nome{flex:1;min-width:0;font-weight:500;font-size:.98rem}
+.disctopo .qtd{font-size:.8rem;color:var(--toga);white-space:nowrap}
+.discdet{padding:0 1.1rem 1.1rem;border-top:1px solid var(--linha)}
+.temas{display:flex;flex-wrap:wrap;gap:.35rem;margin:.8rem 0 1rem}
+.tema{font-size:.82rem;background:var(--papel2);border:1px solid var(--linha);border-radius:999px;padding:.22rem .7rem}
+.periodo{border:1px solid var(--linha);border-radius:var(--r);background:#fff;margin-bottom:.6rem;padding:.95rem 1.1rem}
+.periodo h3{font-size:1rem;margin-bottom:.6rem}
+.mats{display:flex;flex-direction:column;gap:.3rem}
+.mat{display:flex;align-items:center;gap:.6rem;font-size:.91rem}
+.mat .liga{font-size:.76rem;color:var(--marca)}
+
+/* aviso */
+.aviso{background:#FFFDF5;border:1px solid var(--marcador);border-radius:var(--r);padding:.9rem 1.1rem;font-size:.88rem;line-height:1.6;margin-bottom:1.6rem}
+.aviso b{font-weight:600}
+.vazio{border:1px dashed var(--linha-f);border-radius:var(--r);padding:2.2rem 1.4rem;text-align:center;color:var(--toga);background:#fff}
+.vazio b{display:block;color:var(--tinta);font-family:var(--serif);font-size:1.1rem;margin-bottom:.35rem}
+
+/* ---------- página de vendas ---------- */
+#vendas{background:var(--papel)}
+.vtopo{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.1rem clamp(1rem,5vw,3.2rem);border-bottom:1px solid var(--linha);flex-wrap:wrap}
+.vlogo{font-family:var(--serif);font-weight:700;font-size:1.08rem}
+.vlogo span{display:block;font-family:var(--sans);font-weight:400;font-size:.76rem;color:var(--toga)}
+.vwrap{max-width:1040px;margin:0 auto;padding:0 clamp(1rem,5vw,3.2rem)}
+.heroi{padding:clamp(2.6rem,6vw,4.4rem) 0 clamp(2.2rem,5vw,3.4rem)}
+.heroi h1{max-width:19ch}
+.heroi .chamada{font-size:1.1rem;color:var(--toga);max-width:50ch;margin:1.1rem 0 2.2rem;line-height:1.62}
+.vsecao{padding:clamp(2.2rem,5vw,3.4rem) 0;border-top:1px solid var(--linha)}
+.vsecao>h2{max-width:26ch;margin-bottom:.6rem}
+.dentro{display:grid;grid-template-columns:repeat(auto-fit,minmax(252px,1fr));gap:0;border:1px solid var(--linha);border-radius:var(--r);overflow:hidden;background:#fff;margin-top:1.6rem}
+.dentro>div{padding:1.15rem 1.25rem;border-right:1px solid var(--linha);border-bottom:1px solid var(--linha)}
+.dentro>div h3{font-size:1.02rem;margin-bottom:.35rem}
+.dentro>div p{font-size:.9rem;color:var(--toga);margin:0;line-height:1.6}
+.preco{display:flex;gap:2.4rem;align-items:flex-start;flex-wrap:wrap;margin-top:1.6rem}
+.precobox{border:1.5px solid var(--tinta);border-radius:var(--r);background:#fff;padding:1.5rem 1.7rem;min-width:272px}
+.precobox .valor{font-family:var(--serif);font-size:3rem;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.precobox .valor sup{font-size:1.1rem;font-weight:400;top:-1.2rem;position:relative}
+.precobox .valor .porMes{font-family:var(--sans);font-size:1rem;font-weight:400;color:var(--toga)}
+.precobox .cond{font-size:.88rem;color:var(--toga);margin:.45rem 0 1.3rem}
+.precobox ul{list-style:none;padding:0;margin:1.3rem 0 0;font-size:.89rem}
+.precobox li{padding:.3rem 0 .3rem 1.25rem;position:relative;color:var(--toga)}
+.precobox li::before{content:"";position:absolute;left:0;top:.72rem;width:.5rem;height:.5rem;background:var(--marcador);border-radius:1px}
+.faq dt{font-weight:600;font-family:var(--serif);font-size:1.03rem;margin-top:1.3rem}
+.faq dd{margin:.35rem 0 0;color:var(--toga);font-size:.94rem;max-width:68ch;line-height:1.65}
+.vrod{border-top:1px solid var(--linha);padding:1.8rem 0 3rem;font-size:.83rem;color:var(--toga);line-height:1.65}
+.vrod p{max-width:78ch}
+
+/* ---------- progresso da trilha: 20 degraus, um por módulo ---------- */
+.progTrilha{display:flex;gap:1.1rem;align-items:center;border:1px solid var(--linha);border-radius:var(--r);background:#fff;padding:1rem 1.2rem;margin-bottom:1.5rem}
+.pt-num{font-family:var(--serif);font-size:2.3rem;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;flex:0 0 auto}
+.pt-num span{font-size:1.05rem;color:var(--toga);font-weight:400}
+.pt-corpo{flex:1;min-width:0}
+.pt-rot{font-size:.86rem;color:var(--toga);margin-bottom:.5rem}
+.pt-degraus{display:flex;gap:3px;flex-wrap:wrap}
+.deg{width:16px;height:9px;background:var(--papel2);border:1px solid var(--linha);border-radius:1px;flex:0 0 auto}
+.deg.ok{background:var(--marcador);border-color:#C9951F}
+.deg.aqui{background:#fff;border-color:var(--marca);border-width:2px;height:11px;margin-top:-1px}
+.pt-agora{font-size:.87rem;color:var(--toga);margin-top:.55rem}
+.pt-agora b{color:var(--tinta)}
+
+/* ---------- login ---------- */
+#login{min-height:100vh;display:grid;place-items:center;padding:2rem 1.2rem;background:var(--papel)}
+.entrada{width:100%;max-width:380px}
+.entrada h2{font-size:1.6rem}
+.entrada form{margin-top:1.6rem}
+.erroLogin{color:var(--marca);font-size:.88rem;margin:0 0 1rem;padding:.55rem .75rem;background:var(--vermelho-c);border:1px solid var(--marca);border-radius:var(--r)}
+
+/* ---------- responsivo ---------- */
+@media (max-width:860px){
+  #app{flex-direction:column}
+  nav#lateral{width:100%;flex:0 0 auto;flex-direction:row;overflow-x:auto;padding:.45rem .5rem;gap:.2rem;align-items:center}
+  .logo,.navsep,.navrod{display:none}
+  .item{width:auto;white-space:nowrap;padding:.45rem .8rem;border-left:0;border-bottom:3px solid transparent;border-radius:var(--r) var(--r) 0 0;font-size:.88rem}
+  .item[aria-current="page"]{border-left:0;border-bottom-color:var(--marca)}
+  main#tela{padding:1.4rem 1rem 3.5rem}
+  .simtopo{margin-top:-1.4rem}
+  .num{border-right:0;border-bottom:1px solid var(--linha)}
+  .numeros{grid-template-columns:repeat(2,1fr)}
+  .dentro>div{border-right:0}
+}
+/* em telas estreitas a recomendação passa a duas linhas, em vez de espremer o nome da disciplina */
+@media (max-width:560px){
+  .recitem{flex-wrap:wrap;row-gap:.55rem;gap:.7rem}
+  .recitem .corpo{flex:1 1 calc(100% - 2.4rem)}
+  .recitem .lado{flex:0 1 auto;text-align:left;margin-left:2.4rem}
+  .recitem .peso{display:inline;margin-left:.4rem}
+  .recitem>.btn{margin-left:auto}
+  .notao .n{font-size:3.4rem}
+  .ganhos{gap:.5rem 1.2rem}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none !important;animation:none !important}
+}
+@media print{
+  nav#lateral,.simtopo,.perguntar{display:none}
+  body{background:#fff}
+}
+</style>
+</head>
+<body>
+
+<!-- ======================= PÁGINA DE VENDAS ======================= -->
+<div id="vendas">
+  <header class="vtopo">
+    <div class="vlogo">Preparatório OAB &amp; Graduação<span>Primeira fase e matérias do curso de Direito</span></div>
+    <button class="btn s" id="btEntrar">Entrar</button>
+  </header>
+
+  <div class="vwrap">
+    <section class="heroi">
+      <h1>Você passaria na primeira fase hoje?</h1>
+      <p class="chamada">Descobre em trinta segundos. Responda a questão abaixo — é uma das 141 do banco, com o mesmo recorte de tema e de pegadinha que a banca usa.</p>
+
+      <div class="questao" id="heroiQ"></div>
+
+      <div style="margin-top:2rem">
+        <button class="btn g" id="btComprar1">Começar a estudar</button>
+        <p style="font-size:.86rem;color:var(--toga);margin:.75rem 0 0">R$ 30 por mês. Cancele quando quiser.</p>
+      </div>
+    </section>
+
+    <section class="vsecao">
+      <h2>O que você recebe</h2>
+      <p class="subtexto">Duas trilhas no mesmo acesso: a do Exame de Ordem, montada no peso real das disciplinas, e a das matérias da graduação, organizada por período.</p>
+      <div class="dentro">
+        <div><h3>141 questões comentadas</h3><p>Todas as 20 disciplinas da primeira fase, com gabarito comentado, fundamento legal artigo por artigo e a pegadinha explicada.</p></div>
+        <div><h3>Simulado cronometrado</h3><p>80 questões em cinco horas, na ordem e no peso da prova real. Ou simulados curtos de 20 questões quando o tempo é o que você não tem.</p></div>
+        <div><h3>Diagnóstico por disciplina</h3><p>Ao fim de cada simulado, o acerto de cada matéria, a comparação com as provas anteriores e a projeção da sua nota.</p></div>
+        <div><h3>O que estudar agora</h3><p>A recomendação cruza o peso de cada disciplina na prova com a sua taxa de erro. Ética vale 8 questões; errar nela custa o dobro de errar em Eleitoral.</p></div>
+        <div><h3>Caderno de erros</h3><p>Toda questão errada volta para uma fila de revisão até você acertá-la. É onde a nota realmente sobe.</p></div>
+        <div><h3>Assistente de estudos</h3><p>Errou e não entendeu o porquê? O assistente explica de outro jeito, dá exemplo e responde à sua dúvida sobre aquela questão.</p></div>
+        <div><h3>Flashcards e resumos</h3><p>48 flashcards e 15 resumos esquematizados nos pontos em que todo mundo troca os conceitos: prescrição e decadência, prazos, concurso de crimes.</p></div>
+        <div><h3>Atualizações legislativas</h3><p>O que mudou na lei e tende a aparecer na prova — reforma tributária, honorários, Maria da Penha, licitações.</p></div>
+      </div>
+    </section>
+
+    <section class="vsecao">
+      <h2>Assinatura mensal</h2>
+      <div class="preco">
+        <div class="precobox">
+          <div class="valor"><sup>R$</sup>30<span class="porMes">/mês</span></div>
+          <p class="cond">no cartão ou no Pix, renovação automática</p>
+          <button class="btn g" id="btComprar2" style="width:100%;justify-content:center">Assinar agora</button>
+          <ul>
+            <li>Cancele quando quiser, sem multa</li>
+            <li>Conteúdo atualizado durante a assinatura</li>
+            <li>7 dias para pedir o dinheiro de volta</li>
+            <li>Funciona no celular, sem instalar nada</li>
+          </ul>
+        </div>
+        <div style="flex:1;min-width:270px;max-width:46ch">
+          <p>A nota de corte da primeira fase é 40 acertos em 80. Metade da prova. O caminho mais curto até lá não é ler mais — é descobrir quais das 20 disciplinas estão te custando pontos e atacar essas.</p>
+          <p>É exatamente isso que a plataforma faz: você resolve, ela mede, e te diz onde voltar.</p>
+          <p>Quem estuda três meses para o exame gasta menos de cem reais no total — e cancela assim que passar.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="vsecao">
+      <h2>Perguntas que todo mundo faz</h2>
+      <dl class="faq">
+        <dt>As questões são das provas oficiais da FGV?</dt>
+        <dd>Não. São questões originais, escritas no estilo da banca, cobrindo os mesmos temas que mais aparecem nas últimas edições. As provas oficiais são material protegido por direito autoral; você as encontra gratuitamente no site da OAB e da FGV, e vale resolvê-las lá também.</dd>
+        <dt>Serve para as provas da faculdade ou só para a OAB?</dt>
+        <dd>Para as duas. A trilha da graduação organiza o conteúdo por período do curso e mostra, em cada matéria, o que dela cai no Exame de Ordem — então estudar para a prova da faculdade já adianta a OAB.</dd>
+        <dt>Quanto tempo preciso por dia?</dt>
+        <dd>Trinta minutos de questões comentadas rendem mais que duas horas de leitura passiva. A plataforma é feita para sessões curtas: você entra, resolve dez questões, vê onde errou e sai.</dd>
+        <dt>O conteúdo está atualizado?</dt>
+        <dd>Há um módulo só de atualizações legislativas, com as mudanças recentes que tendem a ser cobradas. Ainda assim, a lei muda depois de qualquer data de revisão: confirme a redação vigente no Planalto antes da prova.</dd>
+        <dt>Como cancelo?</dt>
+        <dd>Quando quiser, sem multa e sem precisar justificar. A assinatura vale até o fim do período já pago. Nos 7 primeiros dias você ainda tem direito a reembolso integral, pelo Código de Defesa do Consumidor.</dd>
+      </dl>
+    </section>
+
+    <footer class="vrod">
+      <p><b>Material educacional.</b> Não constitui orientação jurídica nem substitui a consulta a advogado, a professor ou ao texto legal. Os gabaritos e fundamentos foram revisados na data indicada no módulo de atualizações, mas legislação, súmulas e jurisprudência mudam: confirme a redação vigente antes de usar qualquer informação daqui em prova ou em caso real.</p>
+      <p style="margin-top:.8rem">Não somos vinculados à Ordem dos Advogados do Brasil nem à Fundação Getulio Vargas. Exame de Ordem, OAB e FGV são referências às instituições apenas para identificar o exame a que este material se destina.</p>
+    </footer>
+  </div>
+</div>
+
+<!-- ======================= LOGIN ======================= -->
+<div id="login" class="oculto">
+  <div class="entrada">
+    <div class="vlogo" style="margin-bottom:2rem">Preparatório OAB &amp; Graduação<span>Primeira fase e matérias do curso de Direito</span></div>
+    <h2>Entrar</h2>
+    <p class="subtexto" style="margin-top:.5rem">Use o usuário e a senha que você recebeu junto com a compra.</p>
+    <form id="formLogin" autocomplete="on">
+      <label class="campo"><b>Usuário</b>
+        <input type="text" id="lUser" autocomplete="username" autocapitalize="none" spellcheck="false" required></label>
+      <label class="campo"><b>Senha</b>
+        <input type="password" id="lSenha" autocomplete="current-password" required></label>
+      <p id="lErro" class="erroLogin oculto">Usuário ou senha incorretos.</p>
+      <button class="btn g" type="submit" style="width:100%;justify-content:center">Entrar</button>
+    </form>
+    <button class="btn p" id="lVoltar" style="margin-top:1.2rem">← Voltar</button>
+  </div>
+</div>
+
+<!-- ======================= APLICAÇÃO ======================= -->
+<div id="app" class="oculto">
+  <nav id="lateral">
+    <div class="logo"><b>Preparatório</b><span>OAB &amp; Graduação</span></div>
+    <button class="item" data-v="painel">Painel</button>
+    <button class="item" data-v="plano">Plano de estudos</button>
+    <button class="item" data-v="simulado">Simulado</button>
+    <button class="item" data-v="questoes">Questões</button>
+    <button class="item" data-v="erros">Caderno de erros<span class="pin oculto" id="pinErros">0</span></button>
+    <div class="navsep"></div>
+    <button class="item" data-v="flashcards">Flashcards</button>
+    <button class="item" data-v="resumos">Resumos</button>
+    <button class="item" data-v="trilhaoab">Trilha OAB</button>
+    <button class="item" data-v="trilhagrad">Trilha graduação</button>
+    <button class="item" data-v="atualizacoes">Atualizações</button>
+    <button class="item" data-v="provas">Provas oficiais</button>
+    <div class="navsep"></div>
+    <button class="item" data-v="medalhas">Conquistas</button>
+    <button class="item" data-v="ajustes">Ajustes</button>
+    <div class="navrod" id="navRod"></div>
+  </nav>
+  <main id="tela"></main>
+</div>
