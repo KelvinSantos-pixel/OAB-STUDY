@@ -334,6 +334,26 @@ label.campo em{font-style:normal;display:block;margin-top:.3rem;font-size:.82rem
 .vrod{border-top:1px solid var(--linha);padding:1.8rem 0 3rem;font-size:.83rem;color:var(--toga);line-height:1.65}
 .vrod p{max-width:78ch}
 
+
+/* ---------- o convite: a única coisa a fazer agora ---------- */
+.convite{
+  display:flex;align-items:center;gap:1.4rem;flex-wrap:wrap;
+  border:1.5px solid var(--tinta);border-radius:var(--r);background:#fff;
+  padding:1.5rem 1.6rem;margin-bottom:1.8rem;
+}
+.conviteTexto{flex:1;min-width:220px}
+.conviteTexto h2{font-size:1.5rem;margin-bottom:.4rem}
+.conviteTexto p{margin:0;color:var(--toga);font-size:.97rem}
+.conviteTexto p b{color:var(--tinta)}
+.btn.grande{padding:1rem 2.1rem;font-size:1.08rem;flex:0 0 auto}
+
+/* ---------- sessão: progresso acima, nada que distraia ---------- */
+.sessaoTopo{margin:-.6rem 0 1.5rem}
+.sessaoBarra{height:6px;background:var(--papel2);border-radius:3px;overflow:hidden}
+.sessaoTraco{height:100%;background:var(--marcador);border-radius:3px;transition:width .35s ease}
+.sessaoMeta{display:flex;align-items:center;gap:1rem;margin-top:.55rem;font-size:.86rem;color:var(--toga)}
+.sessaoMeta span:last-of-type{margin-left:auto}
+
 /* ---------- progresso da trilha: 20 degraus, um por módulo ---------- */
 .progTrilha{display:flex;gap:1.1rem;align-items:center;border:1px solid var(--linha);border-radius:var(--r);background:#fff;padding:1rem 1.2rem;margin-bottom:1.5rem}
 .pt-num{font-family:var(--serif);font-size:2.3rem;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;flex:0 0 auto}
@@ -362,6 +382,16 @@ label.campo em{font-style:normal;display:block;margin-top:.3rem;font-size:.82rem
   .item{width:auto;white-space:nowrap;padding:.45rem .8rem;border-left:0;border-bottom:3px solid transparent;border-radius:var(--r) var(--r) 0 0;font-size:.88rem}
   .item[aria-current="page"]{border-left:0;border-bottom-color:var(--marca)}
   main#tela{padding:1.4rem 1rem 3.5rem}
+  /* dedo cansado, uma mão só: alvos grandes e ação embaixo */
+  .alt{padding:.95rem 1rem;font-size:1rem;line-height:1.55}
+  .btn{padding:.85rem 1.3rem}
+  .btn.grande{width:100%;justify-content:center;padding:1.05rem}
+  .btn.mini{padding:.55rem .9rem}
+  .convite{padding:1.2rem 1.1rem;gap:1rem}
+  .conviteTexto h2{font-size:1.28rem}
+  .devolutiva [data-prox]{width:100%;justify-content:center}
+  .gq{min-height:2.4rem}
+
   .simtopo{margin-top:-1.4rem}
   .num{border-right:0;border-bottom:1px solid var(--linha)}
   .numeros{grid-template-columns:repeat(2,1fr)}
@@ -491,6 +521,7 @@ label.campo em{font-style:normal;display:block;margin-top:.3rem;font-size:.82rem
   <nav id="lateral">
     <div class="logo"><b>Preparatório</b><span>OAB &amp; Graduação</span></div>
     <button class="item" data-v="painel">Painel</button>
+    <button class="item" data-v="sessao">Sessão de hoje<span class="pin oculto" id="pinSessao">0</span></button>
     <button class="item" data-v="plano">Plano de estudos</button>
     <button class="item" data-v="simulado">Simulado</button>
     <button class="item" data-v="questoes">Questões</button>

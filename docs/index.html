@@ -334,6 +334,26 @@ label.campo em{font-style:normal;display:block;margin-top:.3rem;font-size:.82rem
 .vrod{border-top:1px solid var(--linha);padding:1.8rem 0 3rem;font-size:.83rem;color:var(--toga);line-height:1.65}
 .vrod p{max-width:78ch}
 
+
+/* ---------- o convite: a única coisa a fazer agora ---------- */
+.convite{
+  display:flex;align-items:center;gap:1.4rem;flex-wrap:wrap;
+  border:1.5px solid var(--tinta);border-radius:var(--r);background:#fff;
+  padding:1.5rem 1.6rem;margin-bottom:1.8rem;
+}
+.conviteTexto{flex:1;min-width:220px}
+.conviteTexto h2{font-size:1.5rem;margin-bottom:.4rem}
+.conviteTexto p{margin:0;color:var(--toga);font-size:.97rem}
+.conviteTexto p b{color:var(--tinta)}
+.btn.grande{padding:1rem 2.1rem;font-size:1.08rem;flex:0 0 auto}
+
+/* ---------- sessão: progresso acima, nada que distraia ---------- */
+.sessaoTopo{margin:-.6rem 0 1.5rem}
+.sessaoBarra{height:6px;background:var(--papel2);border-radius:3px;overflow:hidden}
+.sessaoTraco{height:100%;background:var(--marcador);border-radius:3px;transition:width .35s ease}
+.sessaoMeta{display:flex;align-items:center;gap:1rem;margin-top:.55rem;font-size:.86rem;color:var(--toga)}
+.sessaoMeta span:last-of-type{margin-left:auto}
+
 /* ---------- progresso da trilha: 20 degraus, um por módulo ---------- */
 .progTrilha{display:flex;gap:1.1rem;align-items:center;border:1px solid var(--linha);border-radius:var(--r);background:#fff;padding:1rem 1.2rem;margin-bottom:1.5rem}
 .pt-num{font-family:var(--serif);font-size:2.3rem;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;flex:0 0 auto}
@@ -362,6 +382,16 @@ label.campo em{font-style:normal;display:block;margin-top:.3rem;font-size:.82rem
   .item{width:auto;white-space:nowrap;padding:.45rem .8rem;border-left:0;border-bottom:3px solid transparent;border-radius:var(--r) var(--r) 0 0;font-size:.88rem}
   .item[aria-current="page"]{border-left:0;border-bottom-color:var(--marca)}
   main#tela{padding:1.4rem 1rem 3.5rem}
+  /* dedo cansado, uma mão só: alvos grandes e ação embaixo */
+  .alt{padding:.95rem 1rem;font-size:1rem;line-height:1.55}
+  .btn{padding:.85rem 1.3rem}
+  .btn.grande{width:100%;justify-content:center;padding:1.05rem}
+  .btn.mini{padding:.55rem .9rem}
+  .convite{padding:1.2rem 1.1rem;gap:1rem}
+  .conviteTexto h2{font-size:1.28rem}
+  .devolutiva [data-prox]{width:100%;justify-content:center}
+  .gq{min-height:2.4rem}
+
   .simtopo{margin-top:-1.4rem}
   .num{border-right:0;border-bottom:1px solid var(--linha)}
   .numeros{grid-template-columns:repeat(2,1fr)}
@@ -491,6 +521,7 @@ label.campo em{font-style:normal;display:block;margin-top:.3rem;font-size:.82rem
   <nav id="lateral">
     <div class="logo"><b>Preparatório</b><span>OAB &amp; Graduação</span></div>
     <button class="item" data-v="painel">Painel</button>
+    <button class="item" data-v="sessao">Sessão de hoje<span class="pin oculto" id="pinSessao">0</span></button>
     <button class="item" data-v="plano">Plano de estudos</button>
     <button class="item" data-v="simulado">Simulado</button>
     <button class="item" data-v="questoes">Questões</button>
@@ -2830,7 +2861,7 @@ const MEDALHAS = [
 const CHAVE = 'prepoab.v1';
 function vazio(){
   return {entrou:false,usuario:'',aluno:'',prova:'',xp:0,med:[],streak:0,ultimoDia:'',
-          hist:[],erros:[],resp:{},respondidas:0,flash:[],lidos:[],plano:null,
+          hist:[],erros:[],resp:{},respondidas:0,flash:[],lidos:[],plano:null,srs:{},congelamentos:2,
           cfg:{endpoint:'',apiKey:'',modelo:'gemini-3.5-flash'}};
 }
 let S = (function(){
@@ -2870,6 +2901,12 @@ function ganhar(id){ if(!S.med.includes(id)){ S.med.push(id); salvar(); return t
 function registrar(q,acertou){
   marcarDia();
   S.respondidas++;
+  /* mantém a revisão espaçada em dia mesmo quando o aluno responde
+     fora da sessão — no treino livre, no simulado ou no caderno */
+  if(!oSrs()[q.id] || !SESSAO || BANCO[SESSAO.ids[SESSAO.i]] !== q){
+    const r = oSrs()[q.id];
+    agendar(q.id, acertou ? ((r && r.lapsos) ? 1 : 2) : 0);
+  }
   const r = S.resp[q.d] || (S.resp[q.d]={c:0,t:0});
   r.t++; if(acertou) r.c++;
   if(acertou){
@@ -3030,6 +3067,8 @@ function barraTopo(){
 function atualizarNav(){
   const p=$('#pinErros');
   if(S.erros.length){ p.textContent=S.erros.length; p.classList.remove('oculto'); } else p.classList.add('oculto');
+  const ps=$('#pinSessao'), nv=vencidas().length;
+  if(ps){ if(nv){ ps.textContent=nv; ps.classList.remove('oculto'); } else ps.classList.add('oculto'); }
   const n=nivel(S.xp);
   $('#navRod').innerHTML = `${esc(n.nome)}<br>${S.respondidas} ${S.respondidas===1?'questão respondida':'questões respondidas'}`;
 }
@@ -3038,7 +3077,7 @@ function render(){
   const t=$('#tela');
   const f = ({painel:vPainel,simulado:vSimulado,questoes:vQuestoes,erros:vErros,flashcards:vFlashcards,
               resumos:vResumos,trilhaoab:vTrilhaOAB,trilhagrad:vTrilhaGrad,atualizacoes:vAtualizacoes,
-              provas:vProvas,plano:vPlano,medalhas:vMedalhas,ajustes:vAjustes})[VIEW] || vPainel;
+              provas:vProvas,plano:vPlano,sessao:vSessao,medalhas:vMedalhas,ajustes:vAjustes})[VIEW] || vPainel;
   t.innerHTML = barraTopo() + f();
   if(POS_RENDER){ const g=POS_RENDER; POS_RENDER=null; g(); }
 }
@@ -3054,18 +3093,49 @@ function vPainel(){
   const ult = S.hist[S.hist.length-1];
   const diasProva = S.prova ? Math.ceil((new Date(S.prova)-new Date())/864e5) : null;
 
-  let h = `<div class="cabecalho"><h2>${S.aluno? 'Bom estudo, '+esc(S.aluno.split(' ')[0]) : 'Painel'}</h2>
-    <p>${S.respondidas===0
-      ? 'Comece por um simulado curto de 20 questões. Ele serve de diagnóstico: a partir dele a plataforma passa a saber o que recomendar.'
-      : 'A projeção abaixo usa a sua taxa de acerto em cada disciplina aplicada ao peso dela na prova. Disciplina ainda não treinada entra como 50%.'}</p></div>`;
+  /* O aluno abre isto cansado, muitas vezes no celular. Primeiro vem
+     UMA coisa para fazer agora; os números ficam embaixo, para quem
+     quiser olhar. */
+  const m = montarSessao();
+  const minutos = Math.max(2, Math.round(m.ids.length * 1.9));
+  const nome = S.aluno ? S.aluno.split(' ')[0] : '';
+
+  let h = `<div class="convite">
+    <div class="conviteTexto">
+      <h2>${nome ? esc(nome)+', sua sessão de hoje' : 'Sua sessão de hoje'}</h2>
+      ${m.ids.length
+        ? `<p>${
+            m.revisao && m.novas ? `<b>${m.revisao}</b> ${m.revisao===1?'para revisar':'para revisar'} e <b>${m.novas}</b> ${m.novas===1?'nova':'novas'}`
+            : m.revisao ? `<b>${m.revisao}</b> ${m.revisao===1?'questão para revisar':'questões para revisar'}`
+            : `<b>${m.novas}</b> ${m.novas===1?'questão nova':'questões novas'}`
+          } · cerca de <b>${minutos} min</b></p>`
+        : `<p>Você já revisou tudo o que estava no prazo. Amanhã a revisão espaçada traz os próximos itens de volta.</p>`}
+    </div>
+    ${m.ids.length
+      ? `<button class="btn grande" id="btSessao">Começar</button>`
+      : `<button class="btn s grande" data-ir="simulado">Fazer um simulado</button>`}
+  </div>`;
+
+  if(S.respondidas === 0){
+    h += `<div class="aviso"><b>Como isto funciona.</b> Você responde, a plataforma mede e devolve o que estudar. Cada questão que você acerta volta mais pra frente; cada uma que erra volta amanhã. Não há vidas nem punição por errar — errar é onde a nota sobe.</div>`;
+  }
 
   h += `<dl class="numeros">
     <div class="num"><dt>Projeção de nota</dt><dd>${Math.round(proj)}<small> / 80</small></dd></div>
     <div class="num"><dt>Acerto geral</dt><dd>${tg===null?'—':pct(tg)}</dd></div>
-    <div class="num"><dt>Simulados feitos</dt><dd>${S.hist.length}</dd></div>
-    <div class="num"><dt>No caderno de erros</dt><dd>${S.erros.length}</dd></div>
+    <div class="num"><dt>Já vistas</dt><dd>${Object.keys(oSrs()).length}<small> / ${BANCO.length}</small></dd></div>
+    <div class="num"><dt>Vencendo hoje</dt><dd>${vencidas().length}</dd></div>
     ${diasProva!==null?`<div class="num"><dt>Dias até a prova</dt><dd>${diasProva>0?diasProva:'—'}</dd></div>`:''}
   </dl>`;
+
+  /* a projeção sozinha é um veredito; vem acompanhada do que fazer */
+  if(S.respondidas > 0){
+    const falta = 40 - proj;
+    h += `<p class="subtexto" style="margin:-1.4rem 0 2.2rem">${
+      falta > 0
+        ? `A projeção aplica o seu acerto em cada disciplina ao peso dela na prova. Faltam cerca de <b>${Math.ceil(falta)}</b> ${Math.ceil(falta)===1?'ponto':'pontos'} para a nota de corte — e eles estão concentrados nas disciplinas listadas abaixo, não espalhados por tudo.`
+        : `A projeção aplica o seu acerto em cada disciplina ao peso dela na prova, e hoje ela está <b>acima</b> da nota de corte. O risco agora é perder o que já ganhou: siga revisando o que vence.`}</p>`;
+  }
 
   h += `<section class="secao"><h2>Estude isto agora</h2>
     <p class="subtexto">Ordenado por impacto na nota, não por tamanho do erro: o cálculo é o peso da disciplina na prova multiplicado pela sua taxa de erro. Oito questões de Ética pesam quatro vezes mais que duas de Eleitoral.</p>
@@ -3100,6 +3170,7 @@ function vPainel(){
   POS_RENDER=()=>{
     document.querySelectorAll('[data-ir]').forEach(b=>b.onclick=()=>ir(b.dataset.ir));
     document.querySelectorAll('[data-treinar]').forEach(b=>b.onclick=()=>{ FILTRO.d=b.dataset.treinar; FILTRO.n=''; ir('questoes'); });
+    const bs=$('#btSessao'); if(bs) bs.onclick=()=>{ SESSAO=null; ir('sessao'); };
   };
   return h;
 }
@@ -3460,9 +3531,28 @@ function ligarCartao(modo){
     if(modo==='heroi'){ HEROI.resp=i; desenharHeroi(); return; }
     if(modo==='treino'){ TREINO.resp=i; registrar(TREINO.q,i===TREINO.q.c); xp(i===TREINO.q.c?10:2); render(); return; }
     if(modo==='erro'){ REVISAO.resp=i; registrar(REVISAO.q,i===REVISAO.q.c); xp(i===REVISAO.q.c?0:2); render(); return; }
+    if(modo==='sessao'){
+      const q = BANCO[SESSAO.ids[SESSAO.i]];
+      const acertou = i===q.c;
+      SESSAO.resp = i;
+      if(acertou) SESSAO.certas++;
+      /* a nota sai do histórico do próprio item: nada de perguntar
+         ao aluno se foi fácil — é fricção para quem está cansado */
+      const r = oSrs()[q.id];
+      agendar(q.id, acertou ? ((r && r.lapsos) ? 1 : 2) : 0);
+      registrar(q, acertou);
+      const ganho = acertou ? ((r && r.lapsos) ? 25 : 12) : 2;
+      SESSAO.xpGanho += ganho; xp(ganho);
+      render(); return;
+    }
   });
   const prox = raiz.querySelector('[data-prox]');
-  if(prox) prox.onclick=()=>{ if(modo==='treino'){TREINO=null;} if(modo==='erro'){REVISAO=null;} render(); };
+  if(prox) prox.onclick=()=>{
+    if(modo==='treino'){TREINO=null;}
+    if(modo==='erro'){REVISAO=null;}
+    if(modo==='sessao'){ SESSAO.i++; SESSAO.resp=null; }
+    render();
+  };
   const mt = raiz.querySelector('[data-mesmotema]');
   if(mt) mt.onclick=()=>{ FILTRO.t=mt.dataset.mesmotema; FILTRO.d=''; FILTRO.n=''; TREINO=null; REVISAO=null; ir('questoes'); };
   const c3 = raiz.querySelector('#btComprar3');
@@ -4043,6 +4133,124 @@ function vPlano(){
       br.disabled=false;
       chat.scrollTop=chat.scrollHeight;
     };
+  };
+  return h;
+}
+
+
+/* ============================================================
+   REVISÃO ESPAÇADA
+   Cada questão volta num intervalo que cresce quando o aluno acerta
+   e colapsa quando erra. É o que faz 141 questões renderem meses em
+   vez de uma semana, e o que segura o conteúdo na memória até a prova.
+   Nota: 0 errou · 1 acertou com esforço · 2 acertou tranquilo.
+   ============================================================ */
+const TETO_INTERVALO = 120;           /* dias */
+function oSrs(){ if(!S.srs) S.srs = {}; return S.srs; }
+function hojeMais(dias){ return new Date(Date.now()+dias*864e5).toISOString().slice(0,10); }
+
+function agendar(qid, nota){
+  const srs = oSrs();
+  const r = srs[qid] || {int:0, prox:hoje(), lapsos:0, acertos:0, vistas:0};
+  r.vistas++;
+  if(nota === 0){
+    r.lapsos++; r.int = 1;              /* errou: volta amanhã */
+  } else {
+    r.acertos++;
+    if(r.int === 0) r.int = (nota === 2 ? 3 : 2);
+    else r.int = Math.min(TETO_INTERVALO, Math.round(r.int * (nota === 2 ? 2.4 : 1.5)));
+  }
+  r.prox = hojeMais(r.int);
+  srs[qid] = r; salvar();
+}
+/* itens vencidos, do mais atrasado para o menos */
+function vencidas(){
+  const srs = oSrs(), h = hoje();
+  return Object.keys(srs)
+    .filter(id => srs[id].prox <= h)
+    .map(id => ({id:+id, prox:srs[id].prox, lapsos:srs[id].lapsos}))
+    .sort((a,b) => a.prox < b.prox ? -1 : a.prox > b.prox ? 1 : b.lapsos - a.lapsos)
+    .map(x => x.id)
+    .filter(id => BANCO[id]);
+}
+function nuncaVistas(){
+  const srs = oSrs();
+  return BANCO.filter(q => !(q.id in srs));
+}
+/* monta a sessão: primeiro o que está vencendo, depois material novo
+   da disciplina de maior impacto, até preencher o tempo disponível */
+function montarSessao(){
+  const p = oPlano();
+  /* A sessão precisa parecer terminável. Enunciado de OAB é longo:
+     conta-se perto de 2 minutos por questão, e o teto é 12 — quem tem
+     mais tempo faz outra rodada, o que fecha um ciclo em vez de
+     arrastar um só. */
+  const TETO_SESSAO = 12;
+  const alvo = Math.min(TETO_SESSAO, Math.max(5, Math.round(p.minutos / 2)));
+  const devidas = vencidas().slice(0, alvo);
+  let lista = devidas.slice();
+  if(lista.length < alvo){
+    const prioridade = recomendar().map(r => r.d);
+    const novas = nuncaVistas().sort((a,b) => prioridade.indexOf(a.d) - prioridade.indexOf(b.d));
+    lista = lista.concat(novas.slice(0, alvo - lista.length).map(q => q.id));
+  }
+  return {ids: lista, revisao: devidas.length, novas: lista.length - devidas.length};
+}
+
+/* ---------- a sessão em si ---------- */
+let SESSAO = null;
+function iniciarSessao(){
+  const m = montarSessao();
+  if(!m.ids.length) return false;
+  SESSAO = {ids:m.ids, i:0, resp:null, certas:0, revisao:m.revisao, novas:m.novas, xpGanho:0};
+  return true;
+}
+function vSessao(){
+  if(!SESSAO){
+    if(!iniciarSessao()){
+      return `<div class="cabecalho"><h2>Nada vencendo agora</h2>
+        <p>Você já revisou tudo o que estava no prazo e respondeu todo o banco. Volte amanhã — a revisão espaçada traz os itens de volta sozinha.</p></div>
+        <div style="display:flex;gap:.6rem;flex-wrap:wrap"><button class="btn" data-ir="simulado">Fazer um simulado</button>
+        <button class="btn s" data-ir="flashcards">Passar flashcards</button></div>`;
+    }
+  }
+  /* terminou */
+  if(SESSAO.i >= SESSAO.ids.length){
+    const total = SESSAO.ids.length, certas = SESSAO.certas;
+    const h = `<div class="cabecalho"><h2>Sessão concluída</h2>
+      <p>${certas} de ${total} ${certas===1?'certa':'certas'}. ${
+        certas/total >= .7 ? 'Bom aproveitamento — os itens que você acertou voltam mais pra frente.'
+        : 'O que você errou volta amanhã. É assim que fixa.'}</p></div>
+      <div class="ganhos"><span>XP ganho <b>+${SESSAO.xpGanho}</b></span>
+        <span>Ofensiva <b>${S.streak}</b> ${S.streak===1?'dia':'dias'}</span>
+        <span>Vencendo amanhã <b>${vencidas().length}</b></span></div>
+      <div style="display:flex;gap:.6rem;flex-wrap:wrap">
+        <button class="btn" id="btMais">Continuar estudando</button>
+        <button class="btn s" data-ir="painel">Voltar ao painel</button></div>`;
+    POS_RENDER = () => {
+      document.querySelectorAll('[data-ir]').forEach(b=>b.onclick=()=>{SESSAO=null;ir(b.dataset.ir);});
+      $('#btMais').onclick = () => { SESSAO=null; if(iniciarSessao()) render(); else ir('questoes'); };
+    };
+    return h;
+  }
+
+  const q = BANCO[SESSAO.ids[SESSAO.i]];
+  const feito = SESSAO.i + (SESSAO.resp!==null ? 1 : 0);
+  const pct0 = Math.round(feito / SESSAO.ids.length * 100);
+  const ehRevisao = (oSrs()[q.id] || {}).vistas > 0;
+
+  let h = `<div class="sessaoTopo">
+    <div class="sessaoBarra"><div class="sessaoTraco" style="width:${pct0}%"></div></div>
+    <div class="sessaoMeta">
+      <span>${SESSAO.i+1} de ${SESSAO.ids.length}</span>
+      <span>${ehRevisao ? 'revisão' : 'questão nova'}</span>
+      <button class="btn p mini" id="btSair">Pausar</button>
+    </div></div>`;
+  h += cartaoQuestao(q, SESSAO.resp, 'sessao');
+
+  POS_RENDER = () => {
+    $('#btSair').onclick = () => { SESSAO=null; ir('painel'); };
+    ligarCartao('sessao');
   };
   return h;
 }
