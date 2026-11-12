@@ -1,0 +1,6 @@
+[
+  {
+    "u": "aluno.exemplo",
+    "h": "cole aqui o hash gerado por: node gerar-hash.js aluno.exemplo SenhaDele"
+  }
+]

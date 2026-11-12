@@ -1,0 +1,11 @@
+# gerado pelo build.py — refaça com: python3 build.py
+dist/
+
+# lista de alunos: fica fora do controle de versão de propósito
+usuarios.json
+
+node_modules/
+shot-*.png
+m-*.png
+.DS_Store
+*.log
