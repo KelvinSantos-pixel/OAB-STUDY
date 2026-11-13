@@ -335,6 +335,19 @@ label.campo em{font-style:normal;display:block;margin-top:.3rem;font-size:.82rem
 .vrod p{max-width:78ch}
 
 
+
+/* ---------- matérias da grade ---------- */
+.materia{display:flex;align-items:center;gap:1rem;padding:.8rem 1.1rem;border-bottom:1px solid var(--linha);flex-wrap:wrap}
+.materia:last-child{border-bottom:0}
+.materia.aprovada{background:var(--verde-c)}
+.materia.cursando{background:#FFFDF5;border-left:3px solid var(--marcador)}
+.matNome{flex:1;min-width:200px}
+.matNome b{display:block;font-weight:500;font-size:.96rem;line-height:1.35}
+.matNome span{display:block;font-size:.8rem;color:var(--toga);margin-top:.15rem}
+.matAcoes{display:flex;gap:.45rem;align-items:center;flex:0 0 auto}
+.matStatus{font-size:.84rem;padding:.35rem .5rem}
+@media (max-width:560px){ .matAcoes{width:100%} .matStatus{flex:1} }
+
 /* ---------- o convite: a única coisa a fazer agora ---------- */
 .convite{
   display:flex;align-items:center;gap:1.4rem;flex-wrap:wrap;

@@ -55,7 +55,7 @@ const MEDALHAS = [
 const CHAVE = 'prepoab.v1';
 function vazio(){
   return {entrou:false,usuario:'',aluno:'',prova:'',xp:0,med:[],streak:0,ultimoDia:'',
-          hist:[],erros:[],resp:{},respondidas:0,flash:[],lidos:[],plano:null,srs:{},congelamentos:2,
+          hist:[],erros:[],resp:{},respondidas:0,flash:[],lidos:[],plano:null,srs:{},congelamentos:2,grade:{},
           cfg:{endpoint:'',apiKey:'',modelo:'gemini-3.5-flash'}};
 }
 let S = (function(){
@@ -1093,24 +1093,85 @@ function vTrilhaOAB(){
   return h;
 }
 function vTrilhaGrad(){
+  const G = window.GRADE_UNA;
+  if(!S.grade) S.grade = {};          /* progresso do aluno, só neste navegador */
+  const st = m => S.grade[m.n] || 'cursar';
+  const ROT = {cursar:'a cursar', cursando:'cursando', aprovada:'aprovada'};
+
+  const obrig = G.materias.filter(m => m.tipo==='ob' || m.tipo==='pratica');
+  const feitas = G.materias.filter(m => st(m)==='aprovada');
+  const agora  = G.materias.filter(m => st(m)==='cursando');
+  const chFeita = feitas.reduce((s,m)=>s+m.ch,0);
+
+  /* disciplinas da OAB que a grade cobre, e onde o aluno já está */
+  const cobertas = new Set();
+  G.materias.forEach(m => m.oab.forEach(d => cobertas.add(d)));
+  const jaVistas = new Set();
+  feitas.concat(agora).forEach(m => m.oab.forEach(d => jaVistas.add(d)));
+
   let h = `<div class="cabecalho"><h2>Trilha da graduação</h2>
-    <p>As matérias do curso organizadas por período. Em cada uma, a disciplina correspondente no Exame de Ordem — estudar para a prova da faculdade já adianta a OAB.</p></div>`;
-  h += `<div class="aviso"><b>Matriz genérica.</b> Esta é a estrutura padrão de um curso de Direito. Se a sua faculdade organiza as matérias em outra ordem, a correspondência com a OAB continua valendo — o que muda é só o período em que cada matéria aparece.</div>`;
-  TRILHA_GRAD.forEach(p=>{
-    h += `<div class="periodo"><h3>${esc(p.p)}</h3><div class="mats">`;
-    p.m.forEach(m=>{
-      const oab = PONTE_GRAD_OAB[m];
-      const r = oab? (S.resp[oab]||{c:0,t:0}) : null;
-      h += `<div class="mat"><span style="flex:1">${esc(m)}</span>`;
-      if(oab){
-        h += `<span class="liga">${PESO[oab]} ${PESO[oab]===1?'questão':'questões'} na OAB</span>
-          <button class="btn p mini" data-treinar="${esc(oab)}">${r&&r.t?pct(r.c/r.t):'treinar'}</button>`;
-      } else h += `<span class="marginal">fora da 1ª fase</span>`;
-      h += `</div>`;
+    <p>A matriz do curso de Direito da ${esc(G.instituicao)}, com a disciplina da OAB que cada matéria alimenta. Marque o que você já cursou: a plataforma passa a priorizar, na OAB, o que você está vendo na faculdade agora.</p></div>`;
+
+  h += `<dl class="numeros">
+    <div class="num"><dt>Aprovadas</dt><dd>${feitas.length}<small> / ${G.materias.length}</small></dd></div>
+    <div class="num"><dt>Carga cumprida</dt><dd>${chFeita}<small> h</small></dd></div>
+    <div class="num"><dt>Cursando agora</dt><dd>${agora.length}</dd></div>
+    <div class="num"><dt>Disciplinas da OAB na grade</dt><dd>${cobertas.size}<small> / 20</small></dd></div>
+  </dl>`;
+
+  if(agora.length){
+    const alvo = [...new Set([].concat.apply([], agora.map(m=>m.oab)))];
+    h += `<section class="secao"><h2>O que você vê na faculdade agora vale na prova</h2>
+      <p class="subtexto">Estudar para a prova da faculdade e para o Exame de Ordem pode ser o mesmo estudo. Estas são as disciplinas da OAB que as suas matérias deste semestre alimentam.</p>
+      <div class="rec">`;
+    alvo.forEach((d,i)=>{
+      const r = S.resp[d]||{c:0,t:0}, taxa = r.t ? r.c/r.t : null;
+      h += `<div class="recitem"><span class="ord">${i+1}</span>
+        <div class="corpo"><b>${esc(d)}</b><span>${PESO[d]} ${PESO[d]===1?'questão':'questões'} na prova${taxa!==null?' · você acerta '+pct(taxa):''}</span></div>
+        <button class="btn mini" data-treinar="${esc(d)}">Treinar</button></div>`;
     });
-    h += `</div></div>`;
+    h += `</div></section>`;
+  }
+
+  const grupos = [
+    ['Disciplinas obrigatórias','ob'],
+    ['Práticas jurídicas','pratica'],
+    ['Extensão universitária','extensao'],
+    ['Optativas e conclusão', null]
+  ];
+  grupos.forEach(([titulo, tipo])=>{
+    const lista = tipo ? G.materias.filter(m=>m.tipo===tipo)
+                       : G.materias.filter(m=>m.tipo==='optativa'||m.tipo==='tcc');
+    if(!lista.length) return;
+    h += `<section class="secao"><h2>${titulo}</h2><div class="listaresumo">`;
+    lista.forEach(m=>{
+      const s = st(m);
+      h += `<div class="materia ${s}">
+        <div class="matNome"><b>${esc(m.n)}</b>
+          <span>${m.ch} h${m.oab.length ? ' · alimenta ' + m.oab.map(d=>esc(d)+' ('+PESO[d]+')').join(', ') : ' · fora da 1ª fase'}</span></div>
+        <div class="matAcoes">
+          <select class="matStatus" data-mat="${esc(m.n)}" aria-label="Situação em ${esc(m.n)}">
+            ${['cursar','cursando','aprovada'].map(v=>`<option value="${v}" ${s===v?'selected':''}>${ROT[v]}</option>`).join('')}
+          </select>
+          ${m.oab.length ? `<button class="btn s mini" data-treinar="${esc(m.oab[0])}">Treinar</button>` : ''}
+        </div></div>`;
+    });
+    h += `</div></section>`;
   });
-  POS_RENDER=()=>document.querySelectorAll('[data-treinar]').forEach(b=>b.onclick=()=>{FILTRO.d=b.dataset.treinar;FILTRO.t='';FILTRO.n='';TREINO=null;ir('questoes');});
+
+  const fora = [...DISC].filter(d=>!cobertas.has(d));
+  if(fora.length){
+    h += `<div class="aviso"><b>O que a grade não cobre.</b> ${fora.map(d=>esc(d)+' ('+PESO[d]+' '+(PESO[d]===1?'questão':'questões')+')').join(' · ')}. Some ${fora.reduce((s,d)=>s+PESO[d],0)} questões da prova que você vai precisar estudar por fora — e é exatamente para isso que serve a trilha da OAB.</div>`;
+  }
+
+  POS_RENDER=()=>{
+    document.querySelectorAll('[data-treinar]').forEach(b=>b.onclick=()=>{
+      FILTRO.d=b.dataset.treinar; FILTRO.t=''; FILTRO.n=''; TREINO=null; ir('questoes');
+    });
+    document.querySelectorAll('.matStatus').forEach(sel=>sel.onchange=e=>{
+      S.grade[sel.dataset.mat] = e.target.value; salvar(); render();
+    });
+  };
   return h;
 }
 

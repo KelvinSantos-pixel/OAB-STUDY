@@ -12,7 +12,7 @@ PARTES = [
     'conteudo/questoes-1.js', 'conteudo/questoes-2.js',
     'conteudo/questoes-3.js', 'conteudo/questoes-4.js',
     'conteudo/flashcards.js', 'conteudo/resumos.js',
-    'conteudo/trilhas.js', 'src/parte2.js',
+    'conteudo/trilhas.js', 'conteudo/grade-una.js', 'src/parte2.js',
 ]
 MARCA = '/*__USUARIOS__*/'
 
