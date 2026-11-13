@@ -336,6 +336,18 @@ label.campo em{font-style:normal;display:block;margin-top:.3rem;font-size:.82rem
 
 
 
+
+/* ---------- situações-tipo da aula ---------- */
+.situacao{display:flex;gap:.9rem;padding:1rem 0;border-top:1px solid var(--linha)}
+.sitNum{font-family:var(--serif);font-size:1.25rem;font-weight:600;color:var(--linha-f);flex:0 0 1.4rem;line-height:1.3}
+.sitCorpo{flex:1;min-width:0}
+.sitCorpo p{margin:0 0 .5rem;font-size:.94rem;line-height:1.6}
+.sitCorpo p:last-child{margin-bottom:0}
+.sitQuando b{color:var(--toga)}
+.sitComo{padding:.6rem .8rem;background:var(--papel2);border-left:3px solid var(--verde);border-radius:0 var(--r) var(--r) 0}
+.sitPega{font-size:.88rem;color:var(--toga)}
+.sitPega b{color:var(--marca)}
+
 /* ---------- matérias da grade ---------- */
 .materia{display:flex;align-items:center;gap:1rem;padding:.8rem 1.1rem;border-bottom:1px solid var(--linha);flex-wrap:wrap}
 .materia:last-child{border-bottom:0}
@@ -2872,6 +2884,445 @@ window.GRADE_UNA = {
   ]
 };
 
+/* ===== questoes-grad.js ===== */
+// Questões de graduação, ligadas às matérias da matriz da UNA.
+// Campo m: matéria da grade. Campo d: disciplina da OAB correspondente.
+// Alternativas escritas com comprimento equilibrado de propósito: a correta
+// não pode ser identificável por ser a mais longa.
+window.QG = [
+
+/* ===== LIÇÕES PRELIMINARES DE DIREITO E PARTE GERAL DO DIREITO CIVIL ===== */
+{
+  m:"Lições Preliminares de Direito e Parte Geral do Direito Civil",
+  d:"Direito Civil", n:"medio", t:"Fontes do direito",
+  e:"Sobre as fontes do direito no ordenamento brasileiro, assinale a afirmativa correta.",
+  a:["O costume contra legem é fonte válida e afasta a lei que contraria.",
+     "A lei é a fonte primária; costume, analogia e princípios atuam na omissão legal.",
+     "A jurisprudência é fonte primária e vincula os juízes em todos os casos.",
+     "A doutrina obriga o julgador sempre que for majoritária entre os autores."],
+  c:1,
+  co:"No sistema brasileiro a <strong>lei</strong> é a fonte primária. A LINDB determina que, sendo a lei omissa, o juiz decida conforme a <strong>analogia</strong>, os <strong>costumes</strong> e os <strong>princípios gerais de direito</strong> — são fontes subsidiárias, acionadas pela lacuna. O costume <em>contra legem</em> não revoga a lei. A jurisprudência vincula apenas nas hipóteses em que a própria ordem jurídica atribui esse efeito, como súmulas vinculantes e precedentes qualificados, e a doutrina tem força persuasiva, nunca obrigatória.",
+  f:"LINDB, art. 4º; CPC, art. 927."
+},
+{
+  m:"Lições Preliminares de Direito e Parte Geral do Direito Civil",
+  d:"Direito Civil", n:"medio", t:"Vigência e eficácia da lei",
+  e:"Lei publicada sem cláusula expressa sobre o início de sua vigência começa a vigir quando?",
+  a:["Na data da publicação oficial, por presunção legal de urgência normativa.",
+     "Quarenta e cinco dias depois de oficialmente publicada.",
+     "No primeiro dia do exercício financeiro seguinte.",
+     "Noventa dias após a publicação, em qualquer caso."],
+  c:1,
+  co:"Salvo disposição em contrário, a lei começa a vigorar em todo o país <strong>quarenta e cinco dias</strong> depois de oficialmente publicada — é a <em>vacatio legis</em> legal. Nos Estados estrangeiros, quando admitida, a obrigatoriedade se inicia três meses depois. Não confunda com a <strong>anterioridade tributária</strong>, que é regra de eficácia de tributos, nem com prazos constitucionais próprios de certas matérias.",
+  f:"LINDB, art. 1º e § 1º."
+},
+{
+  m:"Lições Preliminares de Direito e Parte Geral do Direito Civil",
+  d:"Direito Civil", n:"dificil", t:"Repristinação",
+  e:"Lei A é revogada pela Lei B. Posteriormente, a Lei B é revogada pela Lei C, que nada diz sobre a Lei A. Qual a situação da Lei A?",
+  a:["Volta a vigorar automaticamente, uma vez que cessou a causa que determinara a sua revogação.",
+     "Permanece revogada, salvo disposição expressa em sentido contrário.",
+     "Volta a vigorar somente naquilo que for materialmente compatível com a disciplina da Lei C.",
+     "Fica suspensa até que o Judiciário decida sobre sua vigência."],
+  c:1,
+  co:"A <strong>repristinação</strong> não é automática no direito brasileiro. A lei revogada <strong>não se restaura</strong> por ter a lei revogadora perdido a vigência, salvo <strong>disposição expressa</strong>. Distinga do <strong>efeito repristinatório</strong> da declaração de inconstitucionalidade: ali a norma revogadora é nula desde a origem, de modo que a anterior nunca chegou a ser validamente revogada.",
+  f:"LINDB, art. 2º, § 3º."
+},
+{
+  m:"Lições Preliminares de Direito e Parte Geral do Direito Civil",
+  d:"Direito Civil", n:"medio", t:"Pessoa natural",
+  e:"Sobre o início da personalidade civil da pessoa natural, assinale a afirmativa correta.",
+  a:["Começa no momento da concepção, com plena capacidade de exercício desde logo.",
+     "Começa do nascimento com vida, resguardados os direitos do nascituro.",
+     "Começa aos dezesseis anos, quando o menor adquire capacidade relativa de exercício.",
+     "Começa com o registro do nascimento no cartório de registro civil da circunscrição."],
+  c:1,
+  co:"A personalidade civil começa do <strong>nascimento com vida</strong> — basta a respiração, ainda que o recém-nascido morra em seguida. A lei põe a salvo, desde a <strong>concepção</strong>, os direitos do <strong>nascituro</strong>, o que a doutrina explica pela teoria natalista, pela concepcionista ou pela da personalidade condicional. O <strong>registro</strong> é ato declaratório, não constitutivo da personalidade.",
+  f:"CC, art. 2º."
+},
+{
+  m:"Lições Preliminares de Direito e Parte Geral do Direito Civil",
+  d:"Direito Civil", n:"medio", t:"Domicílio",
+  e:"Pessoa natural exerce profissão em três cidades distintas, mantendo residência em duas delas. Sobre seu domicílio, assinale a afirmativa correta.",
+  a:["Terá apenas um domicílio, o da residência mais antiga.",
+     "Terá por domicílio qualquer das residências onde viva alternadamente.",
+     "Não terá domicílio, por ausência de ânimo definitivo.",
+     "Terá domicílio necessário, fixado pela autoridade judicial."],
+  c:1,
+  co:"O domicílio da pessoa natural é o lugar onde ela estabelece residência com <strong>ânimo definitivo</strong>. Tendo <strong>diversas residências</strong> onde alternadamente viva, considera-se domicílio <strong>qualquer delas</strong> — o Código admite a <strong>pluralidade domiciliar</strong>. Quanto às relações de profissão, é domicílio o lugar onde ela é exercida; havendo várias, cada uma constitui domicílio para as relações que lhe corresponderem.",
+  f:"CC, arts. 70, 71 e 72."
+},
+{
+  m:"Lições Preliminares de Direito e Parte Geral do Direito Civil",
+  d:"Direito Civil", n:"dificil", t:"Bens",
+  e:"Sobre a classificação dos bens no Código Civil, assinale a afirmativa correta.",
+  a:["Bens fungíveis são os que se consomem no primeiro uso.",
+     "Bens fungíveis são os móveis substituíveis por outros do mesmo gênero.",
+     "Bens divisíveis são os que admitem qualquer espécie de fracionamento material, sem exceção.",
+     "Bens singulares são os que formam um todo em conjunto próprio."],
+  c:1,
+  co:"<strong>Fungíveis</strong> são os móveis que podem substituir-se por outros da mesma espécie, qualidade e quantidade — o critério é a <strong>substituibilidade</strong>. Os que se consomem no primeiro uso são os <strong>consumíveis</strong>, categoria distinta. <strong>Divisíveis</strong> são os que se fracionam sem alteração na substância, diminuição considerável de valor ou prejuízo ao uso a que se destinam — não basta a divisibilidade física. E <strong>coletivos</strong>, não singulares, são os que formam um todo pertinente à mesma pessoa.",
+  f:"CC, arts. 85 a 91."
+},
+{
+  m:"Lições Preliminares de Direito e Parte Geral do Direito Civil",
+  d:"Direito Civil", n:"medio", t:"Negócio jurídico — planos",
+  e:"Na escada ponteana, em que plano se situa a análise da capacidade do agente e da licitude do objeto?",
+  a:["No plano da existência, que reúne os pressupostos de fato indispensáveis ao negócio.",
+     "No plano da validade, que qualifica os elementos existentes.",
+     "No plano da eficácia, que trata dos efeitos concretamente produzidos pelo negócio.",
+     "Em nenhum plano, por serem requisitos extrajurídicos."],
+  c:1,
+  co:"A <strong>escada ponteana</strong>, de Pontes de Miranda, separa três planos. A <strong>existência</strong> reúne os elementos sem os quais não há negócio: agente, vontade, objeto e forma. A <strong>validade</strong> qualifica esses elementos — agente <em>capaz</em>, objeto <em>lícito, possível e determinado</em>, forma <em>prescrita ou não defesa</em>. A <strong>eficácia</strong> cuida dos efeitos, onde atuam condição, termo e encargo.",
+  f:"CC, arts. 104, 166 e 171."
+},
+
+/* ===== TEORIA DA CONSTITUIÇÃO, TEORIA POLÍTICA E DIREITOS FUNDAMENTAIS ===== */
+{
+  m:"Teoria da Constituição, Teoria Política e Direitos Fundamentais",
+  d:"Direito Constitucional", n:"medio", t:"Poder constituinte",
+  e:"Sobre o poder constituinte originário, assinale a afirmativa correta.",
+  a:["É juridicamente limitado pelos termos da constituição anterior que vem substituir.",
+     "É inicial, autônomo e ilimitado do ponto de vista do direito positivo.",
+     "É exercido pelo Congresso Nacional mediante proposta de emenda à Constituição.",
+     "Depende de prévia autorização dos tratados internacionais em vigor no país."],
+  c:1,
+  co:"O poder constituinte <strong>originário</strong> é <strong>inicial</strong> — inaugura a ordem jurídica —, <strong>autônomo</strong> e <strong>incondicionado</strong>, não se submetendo ao direito positivo anterior. Correntes jusnaturalistas lhe apontam limites metajurídicos, mas no plano do direito posto ele é ilimitado. Não confunda com o poder constituinte <strong>derivado reformador</strong>, exercido por emenda e sujeito aos limites do art. 60, nem com o <strong>decorrente</strong>, que é o dos Estados ao elaborar suas constituições.",
+  f:"CF/88, art. 60; doutrina de Sieyès e Canotilho."
+},
+{
+  m:"Teoria da Constituição, Teoria Política e Direitos Fundamentais",
+  d:"Direito Constitucional", n:"dificil", t:"Classificação das constituições",
+  e:"A Constituição de 1988 é classificada, quanto à estabilidade, como:",
+  a:["Flexível, por admitir alteração pelo processo legislativo comum.",
+     "Rígida, por exigir processo mais solene que o das leis ordinárias.",
+     "Imutável, por conter cláusulas pétreas em seu texto.",
+     "Semiflexível, por ter parte rígida e parte flexível."],
+  c:1,
+  co:"Quanto à <strong>estabilidade</strong>, a Constituição de 1988 é <strong>rígida</strong>: sua alteração exige procedimento mais dificultoso que o das leis — dois turnos em cada Casa e três quintos dos votos. A existência de <strong>cláusulas pétreas</strong> não a torna imutável; parte da doutrina fala em <em>super-rigidez</em>. Classificações complementares: quanto à forma é escrita; quanto à origem, promulgada; quanto à extensão, analítica; quanto ao conteúdo, formal e material; quanto à finalidade, dirigente.",
+  f:"CF/88, art. 60, §§ 2º e 4º."
+},
+{
+  m:"Teoria da Constituição, Teoria Política e Direitos Fundamentais",
+  d:"Direito Constitucional", n:"dificil", t:"Eficácia das normas constitucionais",
+  e:"Norma constitucional que prevê direito desde logo exercível, mas que lei posterior pode restringir, classifica-se como de eficácia:",
+  a:["Plena, por produzir todos os efeitos desde a promulgação.",
+     "Contida, por admitir restrição ulterior pelo legislador.",
+     "Limitada, por depender de lei para produzir efeitos.",
+     "Exaurida, por ter cumprido integralmente sua finalidade."],
+  c:1,
+  co:"Na classificação de José Afonso da Silva, a norma de eficácia <strong>contida</strong> — ou restringível — é aplicável desde logo, mas pode ter seu alcance <strong>reduzido</strong> por lei, por outra norma constitucional ou por conceitos ético-jurídicos indeterminados. Exemplo clássico: o livre exercício de qualquer trabalho, ofício ou profissão, <em>atendidas as qualificações que a lei estabelecer</em>. A <strong>plena</strong> não admite restrição; a <strong>limitada</strong> depende de regulamentação para produzir seus efeitos plenos.",
+  f:"CF/88, art. 5º, XIII; classificação de José Afonso da Silva."
+},
+{
+  m:"Teoria da Constituição, Teoria Política e Direitos Fundamentais",
+  d:"Direito Constitucional", n:"medio", t:"Contratualismo",
+  e:"Para qual pensador o estado de natureza é uma guerra de todos contra todos, justificando a entrega do poder a um soberano?",
+  a:["John Locke, que defende os direitos naturais à vida, à liberdade e à propriedade.",
+     "Thomas Hobbes, autor do Leviatã e do pacto de submissão.",
+     "Jean-Jacques Rousseau, teórico da vontade geral e do contrato social.",
+     "Montesquieu, formulador da separação dos poderes."],
+  c:1,
+  co:"<strong>Hobbes</strong>, no <em>Leviatã</em>, descreve o estado de natureza como guerra de todos contra todos, em que a vida é solitária, pobre e breve; o pacto transfere o poder a um soberano, cuja autoridade é praticamente absoluta. <strong>Locke</strong> vê no estado de natureza a vigência de direitos naturais — vida, liberdade e propriedade — e admite a resistência ao governo que os viole. <strong>Rousseau</strong> opõe o bom selvagem à corrupção social e funda a legitimidade na <strong>vontade geral</strong>. <strong>Montesquieu</strong> não é contratualista: formula a separação dos poderes.",
+  f:"Hobbes, Leviatã; Locke, Segundo Tratado; Rousseau, Do Contrato Social."
+},
+{
+  m:"Teoria da Constituição, Teoria Política e Direitos Fundamentais",
+  d:"Direito Constitucional", n:"medio", t:"Gerações de direitos fundamentais",
+  e:"Os direitos sociais, econômicos e culturais, que exigem prestações positivas do Estado, correspondem a qual dimensão?",
+  a:["Primeira dimensão, ligada às liberdades civis e políticas de caráter negativo.",
+     "Segunda dimensão, marcada pela igualdade material e por prestações.",
+     "Terceira dimensão, voltada à solidariedade e aos direitos difusos e coletivos.",
+     "Quarta dimensão, relativa à democracia, à informação e às questões de bioética."],
+  c:1,
+  co:"A <strong>segunda dimensão</strong> reúne os direitos sociais, econômicos e culturais, cujo valor-guia é a <strong>igualdade material</strong> e que exigem do Estado prestações positivas. A <strong>primeira</strong> corresponde às liberdades civis e políticas, de caráter negativo. A <strong>terceira</strong> abriga direitos de <strong>solidariedade</strong>, como meio ambiente e paz. Fala-se ainda em quarta e quinta dimensões. Note que a doutrina prefere <em>dimensões</em> a <em>gerações</em>, porque não há substituição de umas por outras, e sim acúmulo.",
+  f:"CF/88, arts. 5º, 6º e 225; doutrina de Bonavides."
+},
+{
+  m:"Teoria da Constituição, Teoria Política e Direitos Fundamentais",
+  d:"Direito Constitucional", n:"dificil", t:"Colisão de direitos fundamentais",
+  e:"Diante da colisão entre a liberdade de imprensa e o direito à intimidade, a técnica adequada de solução é:",
+  a:["A revogação da norma menos recente pelo critério cronológico.",
+     "A ponderação, aferida pela proporcionalidade no caso concreto.",
+     "A hierarquia, prevalecendo sempre a liberdade de expressão.",
+     "A anulação de uma das normas por inconstitucionalidade."],
+  c:1,
+  co:"Direitos fundamentais têm estrutura de <strong>princípios</strong> e, na colisão, não se excluem: resolve-se por <strong>ponderação</strong>, verificando a <strong>proporcionalidade</strong> em três exames — adequação, necessidade e proporcionalidade em sentido estrito. Nenhum dos direitos é anulado; um cede ao outro <strong>naquele caso</strong>, o que Alexy chama de relação de precedência condicionada. Os critérios <em>cronológico</em>, <em>hierárquico</em> e <em>da especialidade</em> resolvem antinomias entre <strong>regras</strong>, não colisões entre princípios.",
+  f:"CF/88, art. 5º, IV, IX, X e XIV; Alexy, Teoria dos Direitos Fundamentais."
+},
+
+/* ===== CONSTITUIÇÃO, DEMOCRACIA E MEIO AMBIENTE ===== */
+{
+  m:"Constituição, Democracia e Meio Ambiente",
+  d:"Direito Ambiental", n:"medio", t:"Meio ambiente como direito fundamental",
+  e:"Sobre a natureza jurídica do meio ambiente ecologicamente equilibrado na Constituição, assinale a afirmativa correta.",
+  a:["É bem público dominical, pertencente à União como proprietária.",
+     "É bem de uso comum do povo e essencial à sadia qualidade de vida.",
+     "É bem privado, disponível pelo proprietário do imóvel onde se situa.",
+     "É interesse meramente programático, sem exigibilidade judicial."],
+  c:1,
+  co:"A Constituição qualifica o meio ambiente ecologicamente equilibrado como <strong>bem de uso comum do povo</strong> e <strong>essencial à sadia qualidade de vida</strong>, impondo ao Poder Público e à coletividade o dever de defendê-lo para as presentes e futuras gerações. É direito fundamental de <strong>terceira dimensão</strong>, de titularidade <strong>difusa</strong>: não pertence à União como dona nem ao particular em cujo imóvel se encontra, e sua tutela é plenamente exigível em juízo.",
+  f:"CF/88, art. 225, caput."
+},
+{
+  m:"Constituição, Democracia e Meio Ambiente",
+  d:"Direito Ambiental", n:"dificil", t:"Estudo prévio de impacto ambiental",
+  e:"Sobre o estudo prévio de impacto ambiental (EIA), assinale a afirmativa correta.",
+  a:["É exigível em todo e qualquer processo de licenciamento ambiental, sem exceção.",
+     "É exigível em obra potencialmente causadora de degradação significativa.",
+     "É dispensável sempre que o empreendimento já possuir licença de operação anterior.",
+     "É documento sigiloso, inacessível ao público em geral."],
+  c:1,
+  co:"A Constituição exige, na forma da lei, <strong>estudo prévio de impacto ambiental</strong> para instalação de obra ou atividade <strong>potencialmente causadora de significativa degradação</strong> do meio ambiente — o critério é a <strong>significância</strong>, não o mero licenciamento. Ao EIA corresponde o <strong>RIMA</strong>, seu relatório, e a Constituição determina que se dê <strong>publicidade</strong> ao estudo, o que afasta qualquer sigilo. Empreendimento de impacto não significativo pode licenciar-se por estudos mais simples.",
+  f:"CF/88, art. 225, § 1º, IV; Resolução CONAMA 001/86."
+},
+{
+  m:"Constituição, Democracia e Meio Ambiente",
+  d:"Direito Constitucional", n:"medio", t:"Democracia semidireta",
+  e:"São instrumentos de exercício direto da soberania popular previstos na Constituição:",
+  a:["O voto distrital, a fidelidade partidária e o recall de mandatos.",
+     "O plebiscito, o referendo e a iniciativa popular de lei.",
+     "A ação popular, o mandado de injunção, o habeas data e o mandado de segurança.",
+     "O veto presidencial, a sanção tácita e a promulgação de leis."],
+  c:1,
+  co:"A soberania popular se exerce pelo sufrágio universal e pelo voto direto e secreto e, nos termos da lei, mediante <strong>plebiscito</strong>, <strong>referendo</strong> e <strong>iniciativa popular</strong>. A diferença entre os dois primeiros é temporal: o plebiscito é convocado <strong>antes</strong> do ato legislativo ou administrativo, e o referendo é convocado <strong>depois</strong>, para ratificá-lo ou rejeitá-lo. A iniciativa popular de lei federal exige subscrição de ao menos um por cento do eleitorado nacional, distribuído por cinco Estados, com não menos de três décimos por cento em cada um.",
+  f:"CF/88, arts. 14, I a III, e 61, § 2º; Lei 9.709/98."
+},
+{
+  m:"Constituição, Democracia e Meio Ambiente",
+  d:"Direito Ambiental", n:"medio", t:"Desenvolvimento sustentável",
+  e:"A ordem econômica constitucional e a proteção ambiental relacionam-se de que modo?",
+  a:["São inconciliáveis, prevalecendo sempre a livre iniciativa.",
+     "A defesa do meio ambiente é princípio da própria ordem econômica.",
+     "A proteção ambiental só incide sobre atividades estatais.",
+     "A ordem econômica ignora o tema, tratado apenas no art. 225."],
+  c:1,
+  co:"A <strong>defesa do meio ambiente</strong> é princípio expresso da <strong>ordem econômica</strong>, que admite inclusive tratamento diferenciado conforme o impacto ambiental dos produtos e serviços e de seus processos de elaboração e prestação. Não há, portanto, antinomia entre desenvolvimento e proteção: a Constituição adota o <strong>desenvolvimento sustentável</strong>, conciliando livre iniciativa, valorização do trabalho e preservação ambiental, e alcança tanto a atividade estatal quanto a privada.",
+  f:"CF/88, arts. 170, VI, e 225."
+},
+{
+  m:"Constituição, Democracia e Meio Ambiente",
+  d:"Direito Ambiental", n:"dificil", t:"Princípio da vedação ao retrocesso",
+  e:"Lei nova reduz significativamente a área de proteção de unidade de conservação já instituída. Sob o prisma constitucional ambiental, a medida é questionável com base em qual princípio?",
+  a:["Princípio da insignificância, que afasta as lesões de pouca monta ao bem jurídico.",
+     "Princípio da vedação ao retrocesso ecológico, ou não regressão.",
+     "Princípio da anterioridade, que difere a eficácia da norma.",
+     "Princípio da reserva legal, que exige lei para qualquer ato."],
+  c:1,
+  co:"O princípio da <strong>vedação ao retrocesso ecológico</strong> sustenta que o patamar de proteção ambiental já alcançado não pode ser suprimido ou reduzido de forma arbitrária, por ser projeção do núcleo essencial de um direito fundamental. Some-se a exigência constitucional de que a <strong>alteração e a supressão</strong> de espaços territoriais especialmente protegidos se façam <strong>por lei</strong>, vedada qualquer utilização que comprometa a integridade dos atributos que justificaram a proteção.",
+  f:"CF/88, art. 225, § 1º, III; Lei 9.985/2000."
+},
+
+/* ===== DIREITO PENAL: TEORIA GERAL (revisão) ===== */
+{
+  m:"Direito Penal: Teoria Geral",
+  d:"Direito Penal", n:"medio", t:"Conceito analítico de crime",
+  e:"Segundo a teoria tripartida, adotada majoritariamente no Brasil, crime é fato:",
+  a:["Típico e antijurídico, sendo a culpabilidade pressuposto da pena.",
+     "Típico, antijurídico e culpável, nos três substratos do delito.",
+     "Típico, culpável e punível, com a punibilidade inclusa.",
+     "Antijurídico e culpável, dispensada a tipicidade nos crimes culposos."],
+  c:1,
+  co:"A <strong>teoria tripartida</strong> define crime como fato <strong>típico</strong>, <strong>antijurídico</strong> e <strong>culpável</strong>. A corrente <strong>bipartida</strong>, defendida por Damásio e Mirabete, retira a culpabilidade do conceito e a trata como pressuposto de aplicação da pena — é a tese da primeira alternativa, minoritária. A <strong>punibilidade</strong> não integra o conceito analítico em nenhuma das duas: é consequência jurídica do crime, e sua extinção não desfaz o delito.",
+  f:"CP, arts. 13, 23 e 26; doutrina majoritária."
+},
+{
+  m:"Direito Penal: Teoria Geral",
+  d:"Direito Penal", n:"dificil", t:"Teoria da imputação objetiva",
+  e:"Pela teoria da imputação objetiva, não se imputa o resultado ao agente quando:",
+  a:["Houver dolo eventual em lugar de dolo direto na conduta do agente.",
+     "A conduta se mantiver dentro do risco juridicamente permitido.",
+     "O resultado decorrer de concausa preexistente absolutamente independente.",
+     "A vítima houver concorrido com culpa exclusiva para o evento danoso."],
+  c:1,
+  co:"A <strong>imputação objetiva</strong> acrescenta ao nexo causal físico um filtro normativo: só se imputa o resultado quando o agente <strong>cria ou incrementa um risco juridicamente proibido</strong> e esse risco <strong>se realiza no resultado</strong>, dentro do âmbito de proteção da norma. Conduta que permanece no <strong>risco permitido</strong> — dirigir dentro das regras, por exemplo — não gera imputação, ainda que fisicamente ligada ao dano. A <strong>concausa absolutamente independente</strong> é solução da teoria da causalidade, e não desta.",
+  f:"CP, art. 13; doutrina de Roxin e Jakobs."
+},
+{
+  m:"Direito Penal: Teoria Geral",
+  d:"Direito Penal", n:"medio", t:"Elementos da culpabilidade",
+  e:"São elementos da culpabilidade, na concepção normativa pura:",
+  a:["Dolo, culpa e nexo causal entre conduta e resultado típico.",
+     "Imputabilidade, potencial consciência da ilicitude e exigibilidade.",
+     "Tipicidade, antijuridicidade e punibilidade concreta do fato.",
+     "Voluntariedade, previsibilidade e reprovabilidade do resultado."],
+  c:1,
+  co:"Na <strong>teoria normativa pura</strong>, de matriz finalista, o dolo e a culpa migram para o <strong>fato típico</strong>, e a culpabilidade fica com três elementos: <strong>imputabilidade</strong>, <strong>potencial consciência da ilicitude</strong> e <strong>exigibilidade de conduta diversa</strong>. Cada um tem sua excludente: menoridade, doença mental e embriaguez completa fortuita afastam a imputabilidade; o erro de proibição inevitável afasta a consciência potencial; coação moral irresistível e obediência hierárquica afastam a exigibilidade.",
+  f:"CP, arts. 21, 22, 26 e 28; doutrina finalista."
+},
+
+/* ===== DIREITO DO TRABALHO (nível graduação) ===== */
+{
+  m:"Direito do Trabalho",
+  d:"Direito do Trabalho", n:"medio", t:"Requisitos da relação de emprego",
+  e:"São requisitos caracterizadores da relação de emprego:",
+  a:["Pessoalidade, eventualidade, autonomia técnica e remuneração previamente contratada.",
+     "Pessoalidade, não eventualidade, onerosidade e subordinação jurídica.",
+     "Exclusividade, habitualidade, gratuidade e vínculo societário.",
+     "Continuidade, autonomia, risco próprio e registro em carteira."],
+  c:1,
+  co:"A relação de emprego exige cinco elementos: trabalho prestado por <strong>pessoa física</strong>, com <strong>pessoalidade</strong> (infungibilidade do trabalhador), <strong>não eventualidade</strong>, <strong>onerosidade</strong> e <strong>subordinação jurídica</strong>. Esta última é o critério distintivo decisivo frente ao trabalho autônomo, em que o prestador assume o risco e organiza a própria atividade. A <strong>exclusividade</strong> não é requisito, e o <strong>registro em carteira</strong> é consequência do vínculo, não condição para que ele exista.",
+  f:"CLT, arts. 2º e 3º."
+},
+{
+  m:"Direito do Trabalho",
+  d:"Direito do Trabalho", n:"dificil", t:"Princípios do direito do trabalho",
+  e:"O princípio que determina a aplicação da condição mais favorável ao trabalhador, em caso de dúvida na interpretação, é desdobramento de qual princípio maior?",
+  a:["Princípio da autonomia da vontade, que rege as partes contratantes em igualdade.",
+     "Princípio da proteção, matriz do direito individual do trabalho.",
+     "Princípio da intangibilidade objetiva do contrato firmado.",
+     "Princípio da livre estipulação, próprio da negociação por normas coletivas."],
+  c:1,
+  co:"O <strong>princípio da proteção</strong> é a matriz do direito individual do trabalho e se desdobra em três: <strong><em>in dubio pro operario</em></strong>, que orienta a interpretação em caso de dúvida; <strong>norma mais favorável</strong>, que escolhe entre normas aplicáveis a mais benéfica; e <strong>condição mais benéfica</strong>, que preserva vantagem já incorporada ao contrato. A lógica é compensar, no plano jurídico, a desigualdade de fato entre empregado e empregador.",
+  f:"CLT, art. 468; Súmula 51 do TST; doutrina de Américo Plá Rodriguez."
+},
+{
+  m:"Direito do Trabalho",
+  d:"Direito do Trabalho", n:"medio", t:"Alteração do contrato de trabalho",
+  e:"Empregador altera unilateralmente a função do empregado, com redução de suas atribuições e do padrão remuneratório. A alteração é:",
+  a:["Válida, pois a mudança integra o poder diretivo e disciplinar do empregador.",
+     "Inválida, por faltar mútuo consentimento e por causar prejuízo.",
+     "Válida, desde que comunicada ao empregado com trinta dias de antecedência.",
+     "Inválida apenas na hipótese de o empregado ter estabilidade no emprego."],
+  c:1,
+  co:"Nos contratos individuais de trabalho, só é lícita a alteração das condições por <strong>mútuo consentimento</strong> e, ainda assim, desde que não resultem <strong>prejuízos</strong> ao empregado — faltando qualquer dos dois requisitos, a alteração é <strong>nula</strong>. É o princípio da <strong>inalterabilidade contratual lesiva</strong>. O poder diretivo não alcança a modificação unilateral prejudicial, e a garantia independe de o empregado ter estabilidade.",
+  f:"CLT, art. 468."
+}
+
+];
+
+/* ===== aulas.js ===== */
+// Aulas ligadas às matérias da matriz. Cada uma ensina a RECONHECER a situação
+// antes de responder: o enunciado descreve um fato, e a tarefa do aluno é saber
+// em que instituto aquele fato cai. É isso que a questão cobra.
+window.AULAS = [
+{
+  m:"Lições Preliminares de Direito e Parte Geral do Direito Civil",
+  t:"Como a lei nasce, vale e deixa de valer",
+  cobra:[
+    "Quando a lei passa a obrigar, e o que acontece no intervalo entre publicação e vigência.",
+    "O que o juiz faz quando a lei é omissa, e em que ordem.",
+    "Se a revogação de uma lei revogadora ressuscita a lei antiga.",
+    "Quando começa a personalidade e o que o nascituro já tem."
+  ],
+  situacoes:[
+    { s:"O enunciado diz que uma lei foi publicada em certa data e pergunta se um fato ocorrido dias depois é alcançado por ela.",
+      r:"Procure a cláusula de vigência. Se o enunciado não menciona nenhuma, a resposta é <strong>45 dias</strong> depois da publicação oficial. Antes disso a lei existe, mas não obriga: é a <em>vacatio legis</em>.",
+      p:"O erro comum é assumir que lei publicada já está valendo. Publicação e vigência são momentos distintos." },
+    { s:"O enunciado apresenta um caso sem previsão legal específica e pergunta como o juiz decide.",
+      r:"O juiz <strong>não pode</strong> se eximir de decidir alegando lacuna. A ordem do art. 4º da LINDB é fixa: <strong>analogia</strong>, depois <strong>costumes</strong>, depois <strong>princípios gerais de direito</strong>.",
+      p:"A banca troca a ordem ou inclui a equidade na sequência. Equidade só se aplica nos casos previstos em lei." },
+    { s:"O enunciado encadeia três leis — A revogada por B, B revogada por C — e pergunta pela situação de A.",
+      r:"A continua <strong>revogada</strong>. A repristinação só ocorre se a lei nova disser expressamente que a antiga volta a vigorar.",
+      p:"Não confunda com o <strong>efeito repristinatório</strong> da declaração de inconstitucionalidade: lá a lei revogadora era nula desde sempre, então nunca revogou validamente nada." },
+    { s:"O enunciado fala em direitos de criança ainda não nascida — herança, alimentos, doação.",
+      r:"A personalidade começa no <strong>nascimento com vida</strong>, mas a lei põe a salvo os direitos do <strong>nascituro</strong> desde a concepção. Os direitos existem e ficam condicionados ao nascimento.",
+      p:"A pegadinha é oferecer 'personalidade desde a concepção' como se fosse a regra do Código." }
+  ],
+  erros:"Confundir vigência com publicação; inverter a ordem do art. 4º; achar que o registro de nascimento cria a personalidade; e tratar repristinação como automática."
+},
+{
+  m:"Teoria da Constituição, Teoria Política e Direitos Fundamentais",
+  t:"De onde vem a Constituição e como ela resiste à mudança",
+  cobra:[
+    "A diferença entre o poder que cria a Constituição e os que a alteram.",
+    "Por que a Constituição de 1988 é rígida, e o que isso implica.",
+    "Como classificar uma norma constitucional pela eficácia que produz.",
+    "O que fazer quando dois direitos fundamentais colidem."
+  ],
+  situacoes:[
+    { s:"O enunciado descreve a elaboração de uma nova Constituição após ruptura institucional e pergunta pelos limites desse poder.",
+      r:"É o poder constituinte <strong>originário</strong>: inicial, autônomo e <strong>ilimitado</strong> no plano do direito positivo. Ele não presta contas à ordem que substituiu.",
+      p:"Se o enunciado falar em emenda, mudou tudo: aí é o poder <strong>derivado reformador</strong>, que tem limites materiais, formais e circunstanciais." },
+    { s:"O enunciado traz uma norma que garante um direito 'na forma da lei' ou 'atendidos os requisitos que a lei estabelecer'.",
+      r:"Leia o que a expressão faz. Se o direito <strong>já pode ser exercido</strong> e a lei viria apenas <em>restringir</em>, é norma de eficácia <strong>contida</strong>. Se o direito <strong>não funciona</strong> sem a lei, é <strong>limitada</strong>.",
+      p:"O teste prático: tire a lei da equação. O direito funciona sozinho? Contida. Não funciona? Limitada." },
+    { s:"O enunciado opõe liberdade de imprensa e intimidade, ou liberdade religiosa e saúde pública.",
+      r:"Colisão entre <strong>princípios</strong> se resolve por <strong>ponderação</strong>, com exame de proporcionalidade: adequação, necessidade e proporcionalidade em sentido estrito. Um cede ao outro <em>naquele caso</em>, sem ser anulado.",
+      p:"Alternativas que mandam 'revogar a norma mais antiga' ou 'declarar inconstitucional' estão aplicando solução de antinomia entre regras — errado para princípios." },
+    { s:"O enunciado descreve um estado de natureza e pede o autor correspondente.",
+      r:"Guerra de todos contra todos e soberano forte: <strong>Hobbes</strong>. Direitos naturais e direito de resistência: <strong>Locke</strong>. Bom selvagem e vontade geral: <strong>Rousseau</strong>. Separação dos poderes: <strong>Montesquieu</strong>, que não é contratualista.",
+      p:"Decore pelo verbo central: Hobbes submete, Locke limita, Rousseau funda, Montesquieu divide." }
+  ],
+  erros:"Tratar cláusula pétrea como imutabilidade absoluta; confundir contida com limitada; e resolver colisão de princípios com critério hierárquico."
+},
+{
+  m:"Constituição, Democracia e Meio Ambiente",
+  t:"O ambiente como direito de todos e de ninguém em particular",
+  cobra:[
+    "A natureza jurídica do meio ambiente e quem pode defendê-lo.",
+    "Quando o estudo de impacto ambiental é obrigatório.",
+    "Como a Constituição concilia economia e proteção ambiental.",
+    "Os instrumentos de participação direta do cidadão."
+  ],
+  situacoes:[
+    { s:"O enunciado pergunta de quem é o meio ambiente, ou quem pode exigir sua proteção.",
+      r:"É <strong>bem de uso comum do povo</strong>, de titularidade <strong>difusa</strong>: não pertence à União como proprietária nem ao dono do terreno. Qualquer cidadão pode defendê-lo por <strong>ação popular</strong>, e o Ministério Público por <strong>ação civil pública</strong>.",
+      p:"Alternativas que o classificam como bem público dominical ou privado estão erradas pela mesma razão: ambas atribuem um dono." },
+    { s:"O enunciado descreve um empreendimento e pergunta se exige EIA.",
+      r:"O critério é a <strong>significativa degradação</strong>, não o porte nem o licenciamento em si. Obra de impacto pequeno licencia por estudos mais simples.",
+      p:"A banca oferece 'todo licenciamento exige EIA'. Não exige — e o EIA é <strong>público</strong>, nunca sigiloso." },
+    { s:"O enunciado apresenta conflito entre atividade econômica e preservação.",
+      r:"Não há antinomia: a <strong>defesa do meio ambiente é princípio da ordem econômica</strong>. A Constituição adota o <strong>desenvolvimento sustentável</strong>, e admite tratamento diferenciado conforme o impacto ambiental.",
+      p:"Alternativas que mandam prevalecer sempre a livre iniciativa, ou sempre o ambiente, erram pela mesma lógica: a Constituição concilia." },
+    { s:"O enunciado trata de redução de área protegida ou de flexibilização de proteção já existente.",
+      r:"Dois fundamentos: a alteração e a supressão de espaços protegidos só se fazem <strong>por lei</strong>, e incide a <strong>vedação ao retrocesso ecológico</strong>.",
+      p:"Note que criar unidade de conservação pode ser feito por decreto; <strong>reduzir ou extinguir</strong>, só por lei." }
+  ],
+  erros:"Atribuir dono ao meio ambiente; exigir EIA em todo licenciamento; e opor economia e ambiente como se a Constituição escolhesse um lado."
+},
+{
+  m:"Direito Penal: Teoria Geral",
+  t:"Os três andares do crime",
+  cobra:[
+    "O conceito analítico de crime e onde cada excludente atua.",
+    "A diferença entre excluir o fato típico, a ilicitude e a culpabilidade.",
+    "Os elementos da culpabilidade depois do finalismo.",
+    "Quando o resultado não se imputa ao agente, apesar do nexo físico."
+  ],
+  situacoes:[
+    { s:"O enunciado narra um fato e pergunta se há crime, oferecendo excludentes nas alternativas.",
+      r:"Suba os três andares na ordem. <strong>Fato típico</strong>: há conduta, resultado, nexo e tipicidade? <strong>Ilicitude</strong>: incide legítima defesa, estado de necessidade, estrito cumprimento ou exercício regular? <strong>Culpabilidade</strong>: o agente é imputável, podia conhecer a ilicitude, era exigível conduta diversa?",
+      p:"Parar no primeiro andar que exclui resolve a questão. Se não há fato típico, nem se discute ilicitude." },
+    { s:"O enunciado descreve alguém que agiu sem saber que a conduta era proibida.",
+      r:"Separe os dois erros. Erro sobre <strong>elemento do tipo</strong> exclui o <strong>dolo</strong> e fica no primeiro andar. Erro sobre a <strong>ilicitude</strong> fica no terceiro: se inevitável, isenta de pena; se evitável, só reduz.",
+      p:"O desconhecimento da lei em si é inescusável — não confunda com erro de proibição, que é não saber que <em>aquilo</em> era proibido." },
+    { s:"O enunciado traz coação moral irresistível, obediência hierárquica ou menoridade.",
+      r:"Tudo isso é <strong>culpabilidade</strong>, terceiro andar. O fato continua típico e ilícito; o que falta é reprovabilidade pessoal.",
+      p:"Por isso o partícipe imputável que se vale de um menor responde: o fato dele é típico, ilícito e culpável." },
+    { s:"O enunciado descreve conduta regular que, por acaso, termina em dano.",
+      r:"Pela <strong>imputação objetiva</strong>, falta imputação quando o agente se manteve no <strong>risco permitido</strong>. Existe nexo físico, mas não normativo.",
+      p:"Exemplo de prova: quem dirige respeitando todas as regras e atropela alguém que se lança sob o carro." }
+  ],
+  erros:"Discutir ilicitude antes de confirmar a tipicidade; confundir erro de tipo com erro de proibição; e colocar dolo na culpabilidade, que é esquema causalista, não finalista."
+},
+{
+  m:"Direito do Trabalho",
+  t:"Quando existe vínculo, e o que não se pode mudar depois",
+  cobra:[
+    "Os cinco requisitos da relação de emprego e qual deles decide.",
+    "O princípio da proteção e seus três desdobramentos.",
+    "Os limites à alteração do contrato pelo empregador.",
+    "A diferença entre empregado, autônomo e trabalhador eventual."
+  ],
+  situacoes:[
+    { s:"O enunciado descreve alguém que presta serviços e pergunta se há vínculo.",
+      r:"Teste os cinco: pessoa física, pessoalidade, não eventualidade, onerosidade, <strong>subordinação</strong>. O decisivo é a subordinação — quem dirige a prestação e quem assume o risco.",
+      p:"Exclusividade <strong>não</strong> é requisito, e ausência de registro em carteira não afasta o vínculo: o registro é consequência, não condição." },
+    { s:"O enunciado apresenta duas normas aplicáveis ao mesmo trabalhador, ou dúvida de interpretação.",
+      r:"Aplique o <strong>princípio da proteção</strong>. Dúvida na interpretação: <em>in dubio pro operario</em>. Duas normas válidas: a <strong>mais favorável</strong>. Vantagem já incorporada ao contrato: <strong>condição mais benéfica</strong>.",
+      p:"Os três resolvem problemas diferentes. Identifique primeiro se o caso é de interpretar, escolher norma ou preservar vantagem." },
+    { s:"O enunciado narra mudança de função, de horário, de local ou de remuneração imposta pelo empregador.",
+      r:"Alteração só vale com <strong>mútuo consentimento</strong> <em>e</em> <strong>sem prejuízo</strong> ao empregado. Faltando qualquer um dos dois, é nula.",
+      p:"Mesmo com concordância do empregado, a alteração lesiva é nula — a anuência não convalida o prejuízo." },
+    { s:"O enunciado descreve falta grave do empregador: atraso reiterado de salários, rigor excessivo, redução salarial.",
+      r:"É hipótese de <strong>rescisão indireta</strong>: o empregado rompe o contrato e recebe como se tivesse sido dispensado sem justa causa.",
+      p:"Não confunda com justa causa do empregado, do art. 482. Aqui quem falta é o patrão." }
+  ],
+  erros:"Exigir exclusividade para reconhecer vínculo; aplicar norma mais favorável quando o caso era de interpretação; e validar alteração lesiva por haver concordância."
+}
+];
+
 /* ===== parte2.js ===== */
 /* ============================================================
    Preparatório OAB & Graduação — lógica da aplicação
@@ -2900,7 +3351,10 @@ function redistribuir(q,i){
   for(let k=0;k<4;k++) a.push(k===alvo ? correta : outras[oi++]);
   return Object.assign({},q,{a:a,c:alvo,id:i});
 }
-const BANCO = [].concat(window.Q1,window.Q2,window.Q3,window.Q4).map(redistribuir);
+const BANCO = [].concat(window.Q1,window.Q2,window.Q3,window.Q4,window.QG||[]).map(redistribuir);
+/* questões escritas para uma matéria específica da grade */
+function questoesDaMateria(nome){ return BANCO.filter(q => q.m === nome); }
+function aulaDa(nome){ return (window.AULAS||[]).find(a => a.m === nome); }
 const DISC  = TRILHA_OAB.map(x=>x.d);
 const PESO  = {}; TRILHA_OAB.forEach(x=>PESO[x.d]=x.peso);
 const TEMAS = {}; TRILHA_OAB.forEach(x=>TEMAS[x.d]=x.temas);
@@ -3146,7 +3600,7 @@ function render(){
   const t=$('#tela');
   const f = ({painel:vPainel,simulado:vSimulado,questoes:vQuestoes,erros:vErros,flashcards:vFlashcards,
               resumos:vResumos,trilhaoab:vTrilhaOAB,trilhagrad:vTrilhaGrad,atualizacoes:vAtualizacoes,
-              provas:vProvas,plano:vPlano,sessao:vSessao,medalhas:vMedalhas,ajustes:vAjustes})[VIEW] || vPainel;
+              provas:vProvas,plano:vPlano,sessao:vSessao,aula:vAula,medalhas:vMedalhas,ajustes:vAjustes})[VIEW] || vPainel;
   t.innerHTML = barraTopo() + f();
   if(POS_RENDER){ const g=POS_RENDER; POS_RENDER=null; g(); }
 }
@@ -3523,10 +3977,10 @@ function simResultado(){
 /* ============================================================
    QUESTÕES SOLTAS
    ============================================================ */
-const FILTRO={d:'',n:'',t:''};
+const FILTRO={d:'',n:'',t:'',m:''};
 let TREINO=null;
 function poolFiltrado(){
-  return BANCO.filter(q=>(!FILTRO.d||q.d===FILTRO.d)&&(!FILTRO.n||q.n===FILTRO.n)&&(!FILTRO.t||q.t===FILTRO.t));
+  return BANCO.filter(q=>(!FILTRO.d||q.d===FILTRO.d)&&(!FILTRO.n||q.n===FILTRO.n)&&(!FILTRO.t||q.t===FILTRO.t)&&(!FILTRO.m||q.m===FILTRO.m));
 }
 function vQuestoes(){
   const pool=poolFiltrado();
@@ -4008,6 +4462,21 @@ function vTrilhaGrad(){
     h += `</div></section>`;
   }
 
+  const comAula = G.materias.filter(m => aulaDa(m.n) && (st(m)==='cursando' || st(m)==='aprovada'));
+  if(comAula.length){
+    h += `<section class="secao"><h2>Aulas das suas matérias</h2>
+      <p class="subtexto">Cada aula ensina a reconhecer a situação antes de responder — é o que a questão realmente cobra.</p>
+      <div class="listaresumo">`;
+    comAula.forEach(m=>{
+      const a = aulaDa(m.n), qs = questoesDaMateria(m.n).length;
+      h += `<button class="lr" data-aula="${esc(m.n)}">
+        <span class="aba ${st(m)==='aprovada'?'v':'o'}">${st(m)==='aprovada'?'revisão':'cursando'}</span>
+        <span style="flex:1"><b>${esc(a.t)}</b><span>${esc(m.n)} · ${a.situacoes.length} situações-tipo · ${qs} ${qs===1?'questão':'questões'}</span></span>
+        <span class="marginal">abrir →</span></button>`;
+    });
+    h += `</div></section>`;
+  }
+
   const grupos = [
     ['Disciplinas obrigatórias','ob'],
     ['Práticas jurídicas','pratica'],
@@ -4028,6 +4497,7 @@ function vTrilhaGrad(){
           <select class="matStatus" data-mat="${esc(m.n)}" aria-label="Situação em ${esc(m.n)}">
             ${['cursar','cursando','aprovada'].map(v=>`<option value="${v}" ${s===v?'selected':''}>${ROT[v]}</option>`).join('')}
           </select>
+          ${aulaDa(m.n) ? `<button class="btn mini" data-aula="${esc(m.n)}">Aula</button>` : ''}
           ${m.oab.length ? `<button class="btn s mini" data-treinar="${esc(m.oab[0])}">Treinar</button>` : ''}
         </div></div>`;
     });
@@ -4046,6 +4516,7 @@ function vTrilhaGrad(){
     document.querySelectorAll('.matStatus').forEach(sel=>sel.onchange=e=>{
       S.grade[sel.dataset.mat] = e.target.value; salvar(); render();
     });
+    document.querySelectorAll('[data-aula]').forEach(b=>b.onclick=()=>{ AULA_ABERTA=b.dataset.aula; ir('aula'); });
   };
   return h;
 }
@@ -4381,6 +4852,59 @@ function vSessao(){
   POS_RENDER = () => {
     $('#btSair').onclick = () => { SESSAO=null; ir('painel'); };
     ligarCartao('sessao');
+  };
+  return h;
+}
+
+
+/* ============================================================
+   AULA DE UMA MATÉRIA
+   Ensina a reconhecer a situação antes de responder: o enunciado
+   descreve um fato, e a tarefa é saber em que instituto ele cai.
+   ============================================================ */
+let AULA_ABERTA = null;
+function vAula(){
+  const a = aulaDa(AULA_ABERTA);
+  if(!a){ AULA_ABERTA=null; return vTrilhaGrad(); }
+  const qs = questoesDaMateria(a.m);
+
+  let h = `<button class="btn p" id="voltarAula">← Trilha da graduação</button>
+    <div class="leitura" style="margin-top:.8rem">
+      <span class="aba n">${esc(a.m)}</span>
+      <h2 style="margin:.8rem 0 1.2rem">${esc(a.t)}</h2>`;
+
+  h += `<h3 style="font-size:1.02rem;margin-bottom:.5rem">O que esta matéria cobra</h3><ul>`;
+  a.cobra.forEach(c => h += `<li>${esc(c)}</li>`);
+  h += `</ul>`;
+
+  h += `<h3 style="font-size:1.02rem;margin:1.8rem 0 .3rem">Situações-tipo</h3>
+    <p style="font-size:.93rem;color:var(--toga);margin-bottom:1rem">Questão de prova quase nunca pergunta "o que diz o artigo". Ela descreve um fato e espera que você reconheça o instituto. Estas são as situações que mais aparecem nesta matéria.</p>`;
+  a.situacoes.forEach((x,i) => {
+    h += `<div class="situacao">
+      <div class="sitNum">${i+1}</div>
+      <div class="sitCorpo">
+        <p class="sitQuando"><b>Quando o enunciado…</b> ${esc(x.s)}</p>
+        <p class="sitComo"><b>Como resolver:</b> ${x.r}</p>
+        <p class="sitPega"><b>Atenção:</b> ${x.p}</p>
+      </div></div>`;
+  });
+
+  h += `<div class="nota" style="margin-top:1.6rem"><b>Onde todo mundo erra.</b> ${esc(a.erros)}</div>`;
+  h += `</div>`;
+
+  if(qs.length){
+    h += `<div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.8rem">
+      <button class="btn" id="btTreinarMateria">Treinar as ${qs.length} questões desta matéria</button>
+      <button class="btn s" data-treinar="${esc(qs[0].d)}">Questões de ${esc(qs[0].d)} na OAB</button></div>`;
+  }
+
+  POS_RENDER=()=>{
+    $('#voltarAula').onclick=()=>{ AULA_ABERTA=null; ir('trilhagrad'); };
+    document.querySelectorAll('[data-treinar]').forEach(b=>b.onclick=()=>{
+      FILTRO.d=b.dataset.treinar; FILTRO.t=''; FILTRO.n=''; FILTRO.m=''; TREINO=null; ir('questoes');
+    });
+    const bt=$('#btTreinarMateria');
+    if(bt) bt.onclick=()=>{ FILTRO.m=a.m; FILTRO.d=''; FILTRO.t=''; FILTRO.n=''; TREINO=null; ir('questoes'); };
   };
   return h;
 }

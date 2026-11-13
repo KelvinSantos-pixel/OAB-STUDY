@@ -25,7 +25,10 @@ function redistribuir(q,i){
   for(let k=0;k<4;k++) a.push(k===alvo ? correta : outras[oi++]);
   return Object.assign({},q,{a:a,c:alvo,id:i});
 }
-const BANCO = [].concat(window.Q1,window.Q2,window.Q3,window.Q4).map(redistribuir);
+const BANCO = [].concat(window.Q1,window.Q2,window.Q3,window.Q4,window.QG||[]).map(redistribuir);
+/* questões escritas para uma matéria específica da grade */
+function questoesDaMateria(nome){ return BANCO.filter(q => q.m === nome); }
+function aulaDa(nome){ return (window.AULAS||[]).find(a => a.m === nome); }
 const DISC  = TRILHA_OAB.map(x=>x.d);
 const PESO  = {}; TRILHA_OAB.forEach(x=>PESO[x.d]=x.peso);
 const TEMAS = {}; TRILHA_OAB.forEach(x=>TEMAS[x.d]=x.temas);
@@ -271,7 +274,7 @@ function render(){
   const t=$('#tela');
   const f = ({painel:vPainel,simulado:vSimulado,questoes:vQuestoes,erros:vErros,flashcards:vFlashcards,
               resumos:vResumos,trilhaoab:vTrilhaOAB,trilhagrad:vTrilhaGrad,atualizacoes:vAtualizacoes,
-              provas:vProvas,plano:vPlano,sessao:vSessao,medalhas:vMedalhas,ajustes:vAjustes})[VIEW] || vPainel;
+              provas:vProvas,plano:vPlano,sessao:vSessao,aula:vAula,medalhas:vMedalhas,ajustes:vAjustes})[VIEW] || vPainel;
   t.innerHTML = barraTopo() + f();
   if(POS_RENDER){ const g=POS_RENDER; POS_RENDER=null; g(); }
 }
@@ -648,10 +651,10 @@ function simResultado(){
 /* ============================================================
    QUESTÕES SOLTAS
    ============================================================ */
-const FILTRO={d:'',n:'',t:''};
+const FILTRO={d:'',n:'',t:'',m:''};
 let TREINO=null;
 function poolFiltrado(){
-  return BANCO.filter(q=>(!FILTRO.d||q.d===FILTRO.d)&&(!FILTRO.n||q.n===FILTRO.n)&&(!FILTRO.t||q.t===FILTRO.t));
+  return BANCO.filter(q=>(!FILTRO.d||q.d===FILTRO.d)&&(!FILTRO.n||q.n===FILTRO.n)&&(!FILTRO.t||q.t===FILTRO.t)&&(!FILTRO.m||q.m===FILTRO.m));
 }
 function vQuestoes(){
   const pool=poolFiltrado();
@@ -1133,6 +1136,21 @@ function vTrilhaGrad(){
     h += `</div></section>`;
   }
 
+  const comAula = G.materias.filter(m => aulaDa(m.n) && (st(m)==='cursando' || st(m)==='aprovada'));
+  if(comAula.length){
+    h += `<section class="secao"><h2>Aulas das suas matérias</h2>
+      <p class="subtexto">Cada aula ensina a reconhecer a situação antes de responder — é o que a questão realmente cobra.</p>
+      <div class="listaresumo">`;
+    comAula.forEach(m=>{
+      const a = aulaDa(m.n), qs = questoesDaMateria(m.n).length;
+      h += `<button class="lr" data-aula="${esc(m.n)}">
+        <span class="aba ${st(m)==='aprovada'?'v':'o'}">${st(m)==='aprovada'?'revisão':'cursando'}</span>
+        <span style="flex:1"><b>${esc(a.t)}</b><span>${esc(m.n)} · ${a.situacoes.length} situações-tipo · ${qs} ${qs===1?'questão':'questões'}</span></span>
+        <span class="marginal">abrir →</span></button>`;
+    });
+    h += `</div></section>`;
+  }
+
   const grupos = [
     ['Disciplinas obrigatórias','ob'],
     ['Práticas jurídicas','pratica'],
@@ -1153,6 +1171,7 @@ function vTrilhaGrad(){
           <select class="matStatus" data-mat="${esc(m.n)}" aria-label="Situação em ${esc(m.n)}">
             ${['cursar','cursando','aprovada'].map(v=>`<option value="${v}" ${s===v?'selected':''}>${ROT[v]}</option>`).join('')}
           </select>
+          ${aulaDa(m.n) ? `<button class="btn mini" data-aula="${esc(m.n)}">Aula</button>` : ''}
           ${m.oab.length ? `<button class="btn s mini" data-treinar="${esc(m.oab[0])}">Treinar</button>` : ''}
         </div></div>`;
     });
@@ -1171,6 +1190,7 @@ function vTrilhaGrad(){
     document.querySelectorAll('.matStatus').forEach(sel=>sel.onchange=e=>{
       S.grade[sel.dataset.mat] = e.target.value; salvar(); render();
     });
+    document.querySelectorAll('[data-aula]').forEach(b=>b.onclick=()=>{ AULA_ABERTA=b.dataset.aula; ir('aula'); });
   };
   return h;
 }
@@ -1506,6 +1526,59 @@ function vSessao(){
   POS_RENDER = () => {
     $('#btSair').onclick = () => { SESSAO=null; ir('painel'); };
     ligarCartao('sessao');
+  };
+  return h;
+}
+
+
+/* ============================================================
+   AULA DE UMA MATÉRIA
+   Ensina a reconhecer a situação antes de responder: o enunciado
+   descreve um fato, e a tarefa é saber em que instituto ele cai.
+   ============================================================ */
+let AULA_ABERTA = null;
+function vAula(){
+  const a = aulaDa(AULA_ABERTA);
+  if(!a){ AULA_ABERTA=null; return vTrilhaGrad(); }
+  const qs = questoesDaMateria(a.m);
+
+  let h = `<button class="btn p" id="voltarAula">← Trilha da graduação</button>
+    <div class="leitura" style="margin-top:.8rem">
+      <span class="aba n">${esc(a.m)}</span>
+      <h2 style="margin:.8rem 0 1.2rem">${esc(a.t)}</h2>`;
+
+  h += `<h3 style="font-size:1.02rem;margin-bottom:.5rem">O que esta matéria cobra</h3><ul>`;
+  a.cobra.forEach(c => h += `<li>${esc(c)}</li>`);
+  h += `</ul>`;
+
+  h += `<h3 style="font-size:1.02rem;margin:1.8rem 0 .3rem">Situações-tipo</h3>
+    <p style="font-size:.93rem;color:var(--toga);margin-bottom:1rem">Questão de prova quase nunca pergunta "o que diz o artigo". Ela descreve um fato e espera que você reconheça o instituto. Estas são as situações que mais aparecem nesta matéria.</p>`;
+  a.situacoes.forEach((x,i) => {
+    h += `<div class="situacao">
+      <div class="sitNum">${i+1}</div>
+      <div class="sitCorpo">
+        <p class="sitQuando"><b>Quando o enunciado…</b> ${esc(x.s)}</p>
+        <p class="sitComo"><b>Como resolver:</b> ${x.r}</p>
+        <p class="sitPega"><b>Atenção:</b> ${x.p}</p>
+      </div></div>`;
+  });
+
+  h += `<div class="nota" style="margin-top:1.6rem"><b>Onde todo mundo erra.</b> ${esc(a.erros)}</div>`;
+  h += `</div>`;
+
+  if(qs.length){
+    h += `<div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.8rem">
+      <button class="btn" id="btTreinarMateria">Treinar as ${qs.length} questões desta matéria</button>
+      <button class="btn s" data-treinar="${esc(qs[0].d)}">Questões de ${esc(qs[0].d)} na OAB</button></div>`;
+  }
+
+  POS_RENDER=()=>{
+    $('#voltarAula').onclick=()=>{ AULA_ABERTA=null; ir('trilhagrad'); };
+    document.querySelectorAll('[data-treinar]').forEach(b=>b.onclick=()=>{
+      FILTRO.d=b.dataset.treinar; FILTRO.t=''; FILTRO.n=''; FILTRO.m=''; TREINO=null; ir('questoes');
+    });
+    const bt=$('#btTreinarMateria');
+    if(bt) bt.onclick=()=>{ FILTRO.m=a.m; FILTRO.d=''; FILTRO.t=''; FILTRO.n=''; TREINO=null; ir('questoes'); };
   };
   return h;
 }

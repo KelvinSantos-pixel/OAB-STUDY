@@ -3,10 +3,10 @@
    Uso:  node verificar.js           */
 
 global.window = global;
-['questoes-1','questoes-2','questoes-3','questoes-4','flashcards','resumos','trilhas']
+['questoes-1','questoes-2','questoes-3','questoes-4','questoes-grad','flashcards','resumos','trilhas','grade-una','aulas']
   .forEach(f => require('./conteudo/' + f + '.js'));
 
-const BANCO = [].concat(Q1, Q2, Q3, Q4);
+const BANCO = [].concat(Q1, Q2, Q3, Q4, QG);
 const DISC  = TRILHA_OAB.map(x => x.d);
 const PESO  = {}; TRILHA_OAB.forEach(x => PESO[x.d] = x.peso);
 
@@ -98,18 +98,29 @@ BANCO.forEach((q, i) => {
 });
 
 /* ---------- 4. vício clássico: a correta ser sempre a mais longa ---------- */
-let maisLonga = 0, maisCurta = 0;
+/* Duas medidas distintas, e as duas importam. A MAGNITUDE diz quanto a
+   correta é mais longa em media; o RANKING diz com que frequencia ela e a
+   mais longa. Dá para corrigir a magnitude e o vício continuar: uma
+   vantagem de 10% ja basta para a correta liderar quase sempre. */
+const rank = {1:0, 2:0, 3:0, 4:0};
+let somaC = 0, somaD = 0, validas = 0;
 BANCO.forEach(q => {
   if (!Array.isArray(q.a) || q.a.length !== 4) return;
+  validas++;
   const tam = q.a.map(a => semTags(a).length);
-  const max = Math.max.apply(null, tam), min = Math.min.apply(null, tam);
-  if (tam[q.c] === max) maisLonga++;
-  if (tam[q.c] === min) maisCurta++;
+  const ord = tam.slice().sort((a,b) => b-a);
+  rank[ord.indexOf(tam[q.c]) + 1]++;
+  somaC += tam[q.c];
+  somaD += tam.filter((_,k) => k !== q.c).reduce((s,x) => s+x, 0) / 3;
 });
-const pctLonga = maisLonga / BANCO.length;
-nota('Correta é a alternativa mais longa em ' + Math.round(pctLonga*100) + '% das questões (esperado ~25%)');
-if (pctLonga > 0.45) aviso('A correta tende a ser a mais longa. O aluno pode acertar pelo tamanho, sem saber a matéria.');
-nota('Correta é a mais curta em ' + Math.round(maisCurta/BANCO.length*100) + '%');
+const pctLonga = rank[1] / validas;
+const excesso  = somaC / somaD - 1;
+nota('Posição da correta por comprimento — 1ª: ' + Math.round(rank[1]/validas*100) + '% · 2ª: ' +
+     Math.round(rank[2]/validas*100) + '% · 3ª: ' + Math.round(rank[3]/validas*100) + '% · 4ª: ' +
+     Math.round(rank[4]/validas*100) + '%  (esperado 25% em cada)');
+nota('A correta é, em média, ' + Math.round(excesso*100) + '% mais longa que as erradas (esperado ~0%)');
+if (pctLonga > 0.40) aviso('A correta é a mais longa em ' + Math.round(pctLonga*100) + '% das questões: o aluno pode acertar pelo tamanho, sem saber a matéria. Alongue distratoras até a distribuição ficar perto de 25% em cada posição.');
+else if (excesso > 0.25) aviso('A correta é ' + Math.round(excesso*100) + '% mais longa que as erradas em média: o comprimento ainda sinaliza a resposta.');
 
 /* ---------- 5. fundamento legal ---------- */
 const PISTAS = /arts?\.|artigo|súmula|lei|cf\/88|cpc|cpp|clt|ctn|cc,|cdc|eca|adct|ec |lc |provimento|ced|decreto|convenção|constituição|adi|adc|adpf|tema/i;
@@ -202,6 +213,24 @@ ATUALIZACOES.forEach((a, i) => {
 
 /* ---------- relatório ---------- */
 const niv = {}; BANCO.forEach(q => niv[q.n] = (niv[q.n]||0)+1);
+/* mede os dois conjuntos em separado, para ver o progresso */
+(function(){
+  const sets = [['Banco OAB (original)', [].concat(Q1,Q2,Q3,Q4)], ['Graduação (novo)', QG]];
+  sets.forEach(function(par){
+    const lista = par[1]; if(!lista.length) return;
+    let lider = 0, sc = 0, sd = 0;
+    lista.forEach(function(q){
+      const tam = q.a.map(function(a){ return semTags(a).length; });
+      const ord = tam.slice().sort(function(a,b){ return b-a; });
+      if (ord.indexOf(tam[q.c]) === 0) lider++;
+      sc += tam[q.c];
+      sd += tam.filter(function(_,k){ return k !== q.c; }).reduce(function(s,x){ return s+x; },0)/3;
+    });
+    nota(par[0] + ': correta é a mais longa em ' + Math.round(lider/lista.length*100) +
+         '% e é ' + Math.round((sc/sd-1)*100) + '% mais longa que as erradas');
+  });
+})();
+
 console.log('===== CONTEÚDO =====');
 console.log('Questões: ' + BANCO.length + '  (fácil ' + (niv.facil||0) + ' · médio ' + (niv.medio||0) + ' · difícil ' + (niv.dificil||0) + ')');
 console.log('Flashcards: ' + FLASHCARDS.length + '   Resumos: ' + RESUMOS.length + '   Atualizações: ' + ATUALIZACOES.length);
